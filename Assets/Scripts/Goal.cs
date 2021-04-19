@@ -7,15 +7,15 @@ using TMPro;
 public class Goal : MonoBehaviour
 {
     private float trans_dir = 1.0f;
+    public float y_init = 1.0f
     public static bool pickedUp = false;
-    public TextMeshProUGUI victoryText;
-    
+    //public TextMeshProUGUI victoryText;
+    public GameManager gameState;
 
     // Start is called before the first frame update
     void Start()
     {
-        victoryText = GameObject.FindWithTag("Victory").GetComponent<TextMeshProUGUI>();
-        victoryText.gameObject.SetActive(false);
+        y_init = transform.position.y;
     }
 
     // Update is called once per frame
@@ -24,9 +24,9 @@ public class Goal : MonoBehaviour
         if (!Goal.pickedUp) {
         var position = this.transform.position;
         
-        if(position.y <= 1.0f ) {
+        if(position.y <= y_init) {
             trans_dir = 1.0f;
-        }else if(position.y >= 1.5f){
+        }else if(position.y >= y_init + .5f){
             trans_dir = -1.0f;
         }
         
@@ -48,8 +48,7 @@ public class Goal : MonoBehaviour
             if(!Goal.pickedUp){
                 //this.score_text.text = "Pieces Collected: " + ++score;
                 Goal.pickedUp = true;
-                victoryText.gameObject.SetActive(true);
-                 
+                gameState.isVictory = true;
             }   
         }
     }

@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {   
     public bool isPaused;
+    public bool isVictory;
 
     void Start()
     {
         isPaused = false; // make sure when restarting scene, game is not paused
+        isVictory = false;
     }
 
     // Check for Key Presses to Manipulate the Scene

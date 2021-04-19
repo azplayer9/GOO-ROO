@@ -13,9 +13,11 @@ public class Player : MonoBehaviour {
     public bool grounded = false; // whether or not Goo is on the ground
     public bool jumping = false; // whether or not Goo is jumping
     private bool walk = true;   // whether or not Goo can walk
-    private bool jumpCancel = false;
+    public bool jumpCancel = false;
     public static bool dead = false;
     
+    public GameManager gameState;
+
     private Rigidbody2D rig; 
     private Animator anim;
     private GameObject indicator;
@@ -44,95 +46,98 @@ public class Player : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        var axis = Input.GetAxisRaw("Horizontal"); // get input direction
-        var dist =  speed * axis * Time.deltaTime;
-        // constantly update size based on gooMass
-        this.transform.localScale = new Vector3(2, 2, 2) * (this.gooMass)/100 + new Vector3(3,3,3);
+        if(!gameState.isVictory){
+            var axis = Input.GetAxisRaw("Horizontal"); // get input direction
+            var dist =  speed * axis * Time.deltaTime;
+            // constantly update size based on gooMass
+            this.transform.localScale = new Vector3(2, 2, 2) * (this.gooMass)/100 + new Vector3(3,3,3);
 
-        // Code for if Goo is *NOT* jumping
-        if (!jumping){
-            // if Goo can walk and S is not being held, then move
-            if (this.walk && axis != 0){ 
-                //moving = true; 
-                //anim.Play("walk");
-                var pos = rig.position;
-                
-                if (this.grounded){     // normal movement
-                    pos.x += dist;
-                }
-                else {                  // mid-air movement
-                    pos.x += dist * ((10f - (combinedForce)) / 10f); // weaker directional influence if goo is midair (weakens over time)
-                    // update combinedForce so DI gets weaker over time
-                    if (combinedForce < 5f) {
-                        combinedForce += Mathf.Abs(dist) * ((10f - (combinedForce)) / 10f);
+            // Code for if Goo is *NOT* jumping
+            if (!jumping){
+                // if Goo can walk and S is not being held, then move
+                if (this.walk && axis != 0){ 
+                    //moving = true; 
+                    //anim.Play("walk");
+                    var pos = rig.position;
+                    
+                    if (this.grounded){     // normal movement
+                        pos.x += dist;
+                        this.rig.velocity = Vector2.zero;
+                    }
+                    else {                  // mid-air movement
+                        pos.x += dist * ((10f - (combinedForce)) / 10f); // weaker directional influence if goo is midair (weakens over time)
+                        // update combinedForce so DI gets weaker over time
+                        if (combinedForce < 5f) {
+                            combinedForce += Mathf.Abs(dist) * ((10f - (combinedForce)) / 10f);
+                        }
+                    }
+                    rig.position = pos;
+                } 
+
+                // on rightclick, charge the jump. Note: you can still shift camera and jump angle while charging
+                if (Input.GetMouseButton(1) && !this.jumpCancel && this.gooMass >= 10f) {
+                    this.walk = false; // disable normal movement
+                    this.indicator.SetActive(true); // make indicator show up
+            
+                    if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90){
+                        this.jumpAngle -= axis * 3;
+                    }
+                    this.indicator.transform.rotation = Quaternion.Euler(0, 0, (this.jumpAngle)); // * jumpDir);
+            
+
+                    // CHARGE JUMP
+                    if(this.jumpPower < 100){ // can charge the jump to a limit (~2-4 seconds?)
+                        //Debug.Log("CHARGING:" + this.jumpPower);
+                        this.jumpPower += 2;
+                    }
+                    
+                    // CANCEL JUMP
+                    if (Input.GetMouseButton(0)){ // cancel jump on left click
+                        this.walk = true; // re-enable normal movement
+                        this.indicator.SetActive(false); // get rid of indicator
+                        //this.jumpAngle = 0;
+                        this.jumpPower = 0; // reset jumpPower on mouseUp
+                        this.jumpCancel = true;
                     }
                 }
-                rig.position = pos;
-            } 
-
-            // on rightclick, charge the jump. Note: you can still shift camera and jump angle while charging
-            if (Input.GetMouseButton(1) && !this.jumpCancel) {
-                this.walk = false; // disable normal movement
-                this.indicator.SetActive(true); // make indicator show up
-           
-                if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90){
-                    this.jumpAngle -= axis * 3;
-                }
-                this.indicator.transform.rotation = Quaternion.Euler(0, 0, (this.jumpAngle)); // * jumpDir);
-           
-
-                // CHARGE JUMP
-                if(this.jumpPower < 100){ // can charge the jump to a limit (~2-4 seconds?)
-                    //Debug.Log("CHARGING:" + this.jumpPower);
-                    this.jumpPower += 2;
-                }
-                
-                // CANCEL JUMP
-                if (Input.GetMouseButton(0)){ // cancel jump on left click
-                    this.walk = true; // re-enable normal movement
-                    this.indicator.SetActive(false); // get rid of indicator
-                    //this.jumpAngle = 0;
-                    this.jumpPower = 0; // reset jumpPower on mouseUp
-                    this.jumpCancel = true;
-                }
-            }
-        }
-
-        else {  // assume Goo *IS* jumping
-            this.rig.AddForce( new Vector2(axis * 0.5f, 0), ForceMode2D.Force ); // slight directional influence direction
-            if (this.combinedForce < 10.0f){    
-                this.combinedForce += Mathf.Abs(axis) * 0.5f;
-            }
-        }
-        
-
-        // EXECUTING THE JUMP
-        if (Input.GetMouseButtonUp(1)) {
-            // conditions for actually jumping
-            if(this.jumpPower > 10 && SpawnBlob()){ // some soft lower bound to ensure the user cannot/does not short jump
-                // x = power * direction, y = power
-                this.jumping = true;
-                var jumpAngleRad = Mathf.PI * (90+this.jumpAngle)/180;
-                Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad), // * this.jumpDir, 
-                                                Mathf.Sin(jumpAngleRad)); 
-
-                this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.9f) * 0.5f) , ForceMode2D.Impulse); // charging has diminishing returns
             }
 
-            this.walk = true; // re-enable normal movement
-            this.indicator.SetActive(false); // get rid of indicator
-            this.jumpPower = 0; // reset jumpPower on mouseUp
-            this.jumpCancel = false;
-        }
+            else {  // assume Goo *IS* jumping
+                this.rig.AddForce( new Vector2(axis * (15f-combinedForce), 0) , ForceMode2D.Force ); // slight directional influence direction
+                if (this.combinedForce < 10.0f){    
+                    this.combinedForce += Mathf.Abs(axis) * 0.5f;
+                }
+            }
+            
 
-        // if (Input.GetKeyUp(KeyCode.S)){
-        //     this.indicator.SetActive(false);
-        // }
+            // EXECUTING THE JUMP
+            if (Input.GetMouseButtonUp(1)) {
+                // conditions for actually jumping
+                if(this.jumpPower >= 10 && SpawnBlob() && !jumpCancel){ // some soft lower bound to ensure the user cannot/does not short jump
+                    // x = power * direction, y = power
+                    this.jumping = true;
+                    var jumpAngleRad = Mathf.PI * (90+this.jumpAngle)/180;
+                    Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad), // * this.jumpDir, 
+                                                    Mathf.Sin(jumpAngleRad)); 
 
-        // if indicator is active, change angle
-        if(this.indicator.activeSelf){
-            if(Input.GetKeyDown(KeyCode.Space)){ // pressing spacebar when setting angle resets angle to 0 (pointing up)
-                this.jumpAngle = 0;
+                    this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.9f) * 0.5f) , ForceMode2D.Impulse); // charging has diminishing returns
+                }
+
+                this.walk = true; // re-enable normal movement
+                this.indicator.SetActive(false); // get rid of indicator
+                this.jumpPower = 0; // reset jumpPower on mouseUp
+                jumpCancel = false;
+            }
+
+            // if (Input.GetKeyUp(KeyCode.S)){
+            //     this.indicator.SetActive(false);
+            // }
+
+            // if indicator is active, change angle
+            if(this.indicator.activeSelf){
+                if(Input.GetKeyDown(KeyCode.Space)){ // pressing spacebar when setting angle resets angle to 0 (pointing up)
+                    this.jumpAngle = 0;
+                }
             }
         }
     }
@@ -145,8 +150,10 @@ public class Player : MonoBehaviour {
             newBlob.transform.position = this.transform.position;
             newBlob.transform.localScale = this.transform.localScale;
 
-            newBlob.GetComponent<Green>().SetBlobValue( this.gooMass/2 );
-            this.gooMass /= 2; // divide goo mass by 2
+            //newBlob.GetComponent<Green>().SetBlobValue( this.gooMass/2 );
+            //this.gooMass /= 2; // divide goo mass by 2
+            newBlob.GetComponent<Green>().SetBlobValue( this.gooMass * .5f );
+            this.gooMass *= .5f;
             Debug.Log("Roo has " + this.gooMass + "goo.");
             
             return true;

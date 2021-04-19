@@ -14,7 +14,13 @@ public class Green : MonoBehaviour
     {
         //this.collected = false;
         this.activated = false;
-        this.GetComponent<BoxCollider2D>().enabled = false;
+        
+        // this.GetComponent<BoxCollider2D>().enabled = true;
+        // this.GetComponent<BoxCollider2D>().enabled = false;
+
+        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
+        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), LeftCamBorder, true);
+        
         StartCoroutine("Activate");
     }
 
@@ -32,16 +38,13 @@ public class Green : MonoBehaviour
     IEnumerator Activate(){
         yield return new WaitForSeconds(0.3f);
         this.activated = true;
-        this.GetComponent<BoxCollider2D>().enabled = true;
 
-        //Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), player.GetComponent<Collider2D>(), false);
-        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), LeftCamBorder, true);
         // play glowing anim?
     }
 
     // Dealing with if Player enters Green Trigger
     void OnTriggerEnter2D (Collider2D col) {
-        Debug.Log(col);
+        //Debug.Log(col);
         
         if (col.gameObject.tag == "Player" && this.activated){  // player has run into blob
             var Roo = col.GetComponent<Player>();
