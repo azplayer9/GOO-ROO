@@ -74,23 +74,23 @@ public class Player : MonoBehaviour {
                     rig.position = pos;
                 } 
 
-                // on rightclick, charge the jump. Note: you can still shift camera and jump angle while charging
-                if (Input.GetMouseButton(1) && !this.jumpCancel && this.gooMass >= 10f) {
-                    this.walk = false; // disable normal movement
-                    this.indicator.SetActive(true); // make indicator show up
-            
-                    if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90){
-                        this.jumpAngle -= axis * 3;
+                // on rightclick, charge the jump.
+                if (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1)) {
+                    if(!this.jumpCancel && this.gooMass >= 10f){
+                        this.walk = false; // disable normal movement
+                        this.indicator.SetActive(true); // make indicator show up
+                
+                        if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90){
+                            this.jumpAngle -= axis * 3;
+                        }
+                        this.indicator.transform.rotation = Quaternion.Euler(0, 0, (this.jumpAngle)); // * jumpDir);
+                        
+                        // CHARGE JUMP
+                        if(this.jumpPower < 100){ // can charge the jump to a limit (~2-4 seconds?)
+                            //Debug.Log("CHARGING:" + this.jumpPower);
+                            this.jumpPower += 2;
+                        }
                     }
-                    this.indicator.transform.rotation = Quaternion.Euler(0, 0, (this.jumpAngle)); // * jumpDir);
-            
-
-                    // CHARGE JUMP
-                    if(this.jumpPower < 100){ // can charge the jump to a limit (~2-4 seconds?)
-                        //Debug.Log("CHARGING:" + this.jumpPower);
-                        this.jumpPower += 2;
-                    }
-                    
                     // CANCEL JUMP
                     if (Input.GetMouseButton(0)){ // cancel jump on left click
                         this.walk = true; // re-enable normal movement
@@ -100,6 +100,24 @@ public class Player : MonoBehaviour {
                         this.jumpCancel = true;
                     }
                 }
+                // If Right Mouse Button is no longer being held, then jump. 
+                else {
+                    // conditions for actually jumping
+                    if(this.jumpPower >= 5 && SpawnBlob()){ // some soft lower bound to ensure the user cannot/does not short jump
+                        // x = power * direction, y = power
+                        this.jumping = true;
+                        var jumpAngleRad = Mathf.PI * (90+this.jumpAngle)/180;
+                        Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad), // * this.jumpDir, 
+                                                        Mathf.Sin(jumpAngleRad)); 
+
+                        this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.9f) * 0.5f) , ForceMode2D.Impulse); // charging has diminishing returns
+                    }
+
+                    this.walk = true; // re-enable normal movement
+                    this.indicator.SetActive(false); // get rid of indicator
+                    this.jumpPower = 0; // reset jumpPower on mouseUp
+                    jumpCancel = false;
+                }
             }
 
             else {  // assume Goo *IS* jumping
@@ -107,26 +125,6 @@ public class Player : MonoBehaviour {
                 if (this.combinedForce < 10.0f){    
                     this.combinedForce += Mathf.Abs(axis) * 0.5f;
                 }
-            }
-            
-
-            // EXECUTING THE JUMP
-            if (Input.GetMouseButtonUp(1)) {
-                // conditions for actually jumping
-                if(this.jumpPower >= 10 && SpawnBlob() && !jumpCancel){ // some soft lower bound to ensure the user cannot/does not short jump
-                    // x = power * direction, y = power
-                    this.jumping = true;
-                    var jumpAngleRad = Mathf.PI * (90+this.jumpAngle)/180;
-                    Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad), // * this.jumpDir, 
-                                                    Mathf.Sin(jumpAngleRad)); 
-
-                    this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.9f) * 0.5f) , ForceMode2D.Impulse); // charging has diminishing returns
-                }
-
-                this.walk = true; // re-enable normal movement
-                this.indicator.SetActive(false); // get rid of indicator
-                this.jumpPower = 0; // reset jumpPower on mouseUp
-                jumpCancel = false;
             }
 
             // if (Input.GetKeyUp(KeyCode.S)){

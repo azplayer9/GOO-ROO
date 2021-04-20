@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1; // scene should start unpaused
         isPaused = false; // make sure when restarting scene, game is not paused
         isVictory = false;
     }
@@ -28,7 +29,7 @@ public class GameManager : MonoBehaviour
         }
 
         // pause/unpause using Escape key
-        if (Input.GetKeyDown(KeyCode.Escape)) {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P)) {
             PauseLevel(isPaused); // call the pause function
             
             // flip the paused bool
@@ -38,12 +39,12 @@ public class GameManager : MonoBehaviour
     }
     
     // reload the current scene
-    void RestartLevel() {    
+    public void RestartLevel() {    
         SceneManager.LoadScene( SceneManager.GetActiveScene().name );
     }
 
     // pause/unpause game based on current pause state
-    void PauseLevel(bool paused) {
+    public void PauseLevel(bool paused) {
         if (paused) {
             Time.timeScale = 1; // if already paused, unpause
             //Debug.Log("unpause");

@@ -7,7 +7,7 @@ using TMPro;
 public class Goal : MonoBehaviour
 {
     private float trans_dir = 1.0f;
-    public float y_init = 1.0f
+    private float y_init = 1.0f;
     public static bool pickedUp = false;
     //public TextMeshProUGUI victoryText;
     public GameManager gameState;
