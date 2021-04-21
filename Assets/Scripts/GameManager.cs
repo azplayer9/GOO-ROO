@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public bool isPaused;
     public bool isVictory;
 
+    public int LevelNum; // initialize level number in editor
+
     void Start()
     {
         Time.timeScale = 1; // scene should start unpaused
@@ -54,5 +56,15 @@ public class GameManager : MonoBehaviour
             //Debug.Log("pause");
         }
         
+    }
+
+    // go to the next scene in the list
+    public void NextLevel() {
+
+    }
+
+    // return to main menu scene
+    public void ReturnToMenu() {
+        SceneManager.LoadScene("0_Title");
     }
 }

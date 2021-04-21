@@ -79,9 +79,10 @@ public class Player : MonoBehaviour {
                     if(!this.jumpCancel && this.gooMass >= 10f){
                         this.walk = false; // disable normal movement
                         this.indicator.SetActive(true); // make indicator show up
-                
+                        
+                        // shifting jumpAngle/indicator using input axis
                         if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90){
-                            this.jumpAngle -= axis * 3;
+                            this.jumpAngle -= axis * SettingsManager.angle_sensitivity; // default angle sensitivity is 3.0f
                         }
                         this.indicator.transform.rotation = Quaternion.Euler(0, 0, (this.jumpAngle)); // * jumpDir);
                         
