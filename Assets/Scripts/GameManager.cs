@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     // go to the next scene in the list
     public void NextLevel() {
-
+        
     }
 
     // return to main menu scene
