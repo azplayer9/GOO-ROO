@@ -46,7 +46,7 @@ public class Player : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        if(!gameState.isVictory){
+        if(!gameState.isVictory && !dead){
             var axis = Input.GetAxisRaw("Horizontal"); // get input direction
             var dist =  speed * axis * Time.deltaTime;
             // constantly update size based on gooMass

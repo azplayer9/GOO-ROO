@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     // go to the next scene in the list
     public void NextLevel() {
-        
+        SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex + 1 );
     }
 
     // return to main menu scene
