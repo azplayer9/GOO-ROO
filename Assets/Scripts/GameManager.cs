@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // pause/unpause using Escape key
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P)) {
+        // pause/unpause using Escape key, but can't pause if game is over
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) && !isVictory) {
             PauseLevel(isPaused); // call the pause function
             
             // flip the paused bool
@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0; // if not paused, pause
             //Debug.Log("pause");
         }
-        
     }
 
     // go to the next scene in the list

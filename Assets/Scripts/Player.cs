@@ -22,13 +22,13 @@ public class Player : MonoBehaviour {
     private Animator anim;
     private GameObject indicator;
     public GameObject blobObj;
-    private new Transform camera;
+    //private new Transform camera;
     
     void Start() {
         rig = this.GetComponent<Rigidbody2D>();
         //anim = this.GetComponent<Animator>();
         
-        camera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
+        //camera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         indicator = GameObject.FindWithTag("Arrow");
         indicator.SetActive(false);
 

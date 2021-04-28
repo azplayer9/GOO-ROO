@@ -23,9 +23,14 @@ public class SettingsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bgm_volume = bgm.value;
-        sfx_volume = sfx.value;
-        angle_sensitivity = angleSens.value;
+        bgm_volume = PlayerPrefs.GetInt("bgmVol", 50);
+        sfx_volume = PlayerPrefs.GetInt("sfxVol", 50);
+        angle_sensitivity = PlayerPrefs.GetFloat("angleSens", 3.0f);
+        
+        // Change Text Field
+        bgm_val.text = "" + bgm_volume;
+        sfx_val.text = "" + sfx_volume;
+        angleSens_val.text = "" + angle_sensitivity;
     }
 
     // Update is called once per frame
@@ -35,6 +40,12 @@ public class SettingsManager : MonoBehaviour
         bgm_volume = bgm.value;
         sfx_volume = sfx.value;
         angle_sensitivity = angleSens.value;
+
+        // save as PlayerPrefs
+        PlayerPrefs.SetFloat("bgmVol", bgm_volume);
+        PlayerPrefs.SetFloat("sfxVol", sfx_volume);
+        PlayerPrefs.SetFloat("angleSens", angle_sensitivity);
+        PlayerPrefs.Save();
         
         // Change Text Field
         bgm_val.text = "" + bgm_volume;
