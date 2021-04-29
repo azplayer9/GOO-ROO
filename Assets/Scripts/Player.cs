@@ -14,7 +14,6 @@ public class Player : MonoBehaviour {
     public bool jumping = false; // whether or not Goo is jumping
     private bool walk = true;   // whether or not Goo can walk
     public bool jumpCancel = false;
-    public static bool dead = false;
     
     public GameManager gameState;
 
@@ -42,11 +41,10 @@ public class Player : MonoBehaviour {
         jumping = false;
         walk = true;
         jumpCancel = false;
-        Player.dead = false;
     }
 
     void FixedUpdate() {
-        if(!gameState.isVictory && !dead){
+        if(!gameState.isVictory && !gameState.isDefeat){
             var axis = Input.GetAxisRaw("Horizontal"); // get input direction
             var dist =  speed * axis * Time.deltaTime;
             // constantly update size based on gooMass
@@ -163,8 +161,8 @@ public class Player : MonoBehaviour {
 
     public void Die() {
         // play death animation
-        Player.dead = true;
         Object.Destroy(this.gameObject);
+        gameState.isDefeat = true; 
     }
 
     void OnCollisionEnter2D(Collision2D col) {

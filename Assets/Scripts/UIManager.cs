@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+        // code to run if game is not paused
         if(!gameState.isPaused) {
             gooBar.fillAmount = Goo.gooMass / 100;      // fill mass UI
             gooText.text = Goo.gooMass + "%";
@@ -37,12 +38,15 @@ public class UIManager : MonoBehaviour
             ShowPauseButtons();
             PausedMenu.SetActive(false);
         }
-        else if (gameState.isVictory){
-            victoryText.gameObject.SetActive(true);
-        }
+        // if game is paused, show the pause menu
         else {     
             PausedMenu.SetActive(true);
         }
+        // check to play victory text
+        if (gameState.isVictory){
+            victoryText.gameObject.SetActive(true);
+        }
+        
     }
 
     public void ShowPauseButtons() {

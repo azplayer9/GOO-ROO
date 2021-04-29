@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {   
     public bool isPaused;
     public bool isVictory;
+    public bool isDefeat;
 
     public int LevelNum; // initialize level number in editor
 
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1; // scene should start unpaused
         isPaused = false; // make sure when restarting scene, game is not paused
         isVictory = false;
+        isDefeat = false;
     }
 
     // Check for Key Presses to Manipulate the Scene
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
         }
 
         // pause/unpause using Escape key, but can't pause if game is over
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) && !isVictory) {
+        if ( !isVictory && !isDefeat && ( Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) ) ) {
             PauseLevel(isPaused); // call the pause function
             
             // flip the paused bool
