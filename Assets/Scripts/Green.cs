@@ -48,13 +48,20 @@ public class Green : MonoBehaviour
         
         if (col.gameObject.tag == "Player" && this.activated){  // player has run into blob
             var Roo = col.GetComponent<Player>();
-
-            Roo.gooMass += this.value;
+            Roo.eating = true;
+            Roo.anim.Play("Eat");
+            //Debug.Log("Play Eat animation");
             //this.collected = true;
-            Debug.Log("Roo has " + Roo.gooMass + " goo.");
-            
-            Object.Destroy(this.gameObject, 0.1f); // destroy this object after Roo eats it
+            //Debug.Log("Roo has " + Roo.gooMass + " goo.");
+            StartCoroutine("EatGreen", Roo);
         }    
+    }
+
+    IEnumerator EatGreen (Player Roo){
+        yield return new WaitForSeconds(0.2f);
+        Object.Destroy(this.gameObject); // destroy this object after Roo eats it
+        Roo.gooMass += this.value;
+        Roo.eating = false;
     }
 
 }
