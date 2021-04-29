@@ -6,15 +6,16 @@ using TMPro;
 
 public class Goal : MonoBehaviour
 {
+    public static bool pickedUp = false;
     private float trans_dir = 1.0f;
     private float y_init = 1.0f;
-    public static bool pickedUp = false;
-    //public TextMeshProUGUI victoryText;
     public GameManager gameState;
 
     // Start is called before the first frame update
     void Start()
     {
+        pickedUp = false;
+        trans_dir = 1.0f;
         y_init = transform.position.y;
     }
 

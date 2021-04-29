@@ -6,8 +6,8 @@ public class CameraControl : MonoBehaviour
 {
     private Transform player;
     
-    public static int minX = -3;
-    public static int maxX = 40; // maxBorder - 10.5 (the maximum x value that the camera can have)
+    public int minX = -3;
+    public int maxX = 45; // maxBorder - 10.5 (the maximum x value that the camera can have)
     //private float camSpeed = 0.1f;
 
     // Start is called before the first frame update
@@ -38,10 +38,25 @@ public class CameraControl : MonoBehaviour
         // }
         //else if(pos.x < maxX && Input.GetAxisRaw("Horizontal") > 0 && dist >= 0) { // camera moves right only if player is on right half of screen moving right
         
-        if(pos.x < maxX && player.position.x >= pos.x) { // camera moves right only if player is on right half of screen moving right
-            pos.x = player.position.x;
+        // camera moves right only if player is on right half of screen moving right
+        if(pos.x > maxX) {
+            pos.x = maxX;
+            this.transform.position = pos;
+        } 
+        else if (pos.x < minX) {
+            pos.x = minX;
+            this.transform.position = pos;
+        } 
+        else if(player.position.x > pos.x + 2 &&  pos.x < maxX) {
+            pos.x = player.position.x - 2;
+            this.transform.position = pos;
+        } 
+        else if(player.position.x < pos.x - 2 && pos.x > minX) { 
+            pos.x = player.position.x + 2;
+            this.transform.position = pos;
         }
-        this.transform.position = pos;
+
+        
     }
 
     void OnTriggerEnter2D(Collider2D col) { // manages camera movement if player moves halfway past the screen

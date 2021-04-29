@@ -13,7 +13,9 @@ public class UIManager : MonoBehaviour
     public Image powerBar;
 
     public GameManager gameState;
+    public GameObject PausedMenu;
     public TextMeshProUGUI PausedText;
+    public GameObject SettingsMenu;
     public TextMeshProUGUI victoryText;
     
     
@@ -25,14 +27,36 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        gooBar.fillAmount = Goo.gooMass / 100;      // fill mass UI
-        gooText.text = Goo.gooMass + "%";
-        gooText.gameObject.SetActive(true);
-        powerBar.fillAmount = Goo.jumpPower / 100;   // fill ower bar UI
-
-        PausedText.gameObject.SetActive(gameState.isPaused);
-
-        if (gameState.isVictory)
+        // code to run if game is not paused
+        if(!gameState.isPaused) {
+            gooBar.fillAmount = Goo.gooMass / 100;      // fill mass UI
+            gooText.text = Goo.gooMass + "%";
+            gooText.gameObject.SetActive(true);
+            powerBar.fillAmount = Goo.jumpPower / 100;  // fill power bar UI
+            
+            // reset UI display so that unpause->pause always defaults to paused buttons
+            ShowPauseButtons();
+            PausedMenu.SetActive(false);
+        }
+        // if game is paused, show the pause menu
+        else {     
+            PausedMenu.SetActive(true);
+        }
+        // check to play victory text
+        if (gameState.isVictory){
             victoryText.gameObject.SetActive(true);
+        }
+        
     }
+
+    public void ShowPauseButtons() {
+        PausedText.gameObject.SetActive(true);
+        SettingsMenu.SetActive(false);
+    }
+
+    public void ShowSettings() {
+        PausedText.gameObject.SetActive(false);
+        SettingsMenu.SetActive(true);
+    }
+
 }

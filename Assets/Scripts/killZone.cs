@@ -18,7 +18,8 @@ public class killZone : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D col) {
         if (col.gameObject.tag == "Player"){
-            col.gameObject.GetComponent<Player>().Die();
+            // handle player death in Player Class
+            col.gameObject.GetComponent<Player>().Die(); 
         }
         else {
             Object.Destroy(col.gameObject);
