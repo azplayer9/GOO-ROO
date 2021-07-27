@@ -13,14 +13,13 @@ public class Green : MonoBehaviour
     void Awake()
     {
         //this.collected = false;
+        player = GameObject.FindObjectOfType<Player>().gameObject;
+        LeftCamBorder = GameObject.Find("ceilingLeft").GetComponent<BoxCollider2D>();
         this.activated = false;
         
-        // this.GetComponent<BoxCollider2D>().enabled = true;
         // this.GetComponent<BoxCollider2D>().enabled = false;
-
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), LeftCamBorder, true);
-        
         StartCoroutine("Activate");
     }
 
@@ -36,9 +35,9 @@ public class Green : MonoBehaviour
     }
 
     IEnumerator Activate(){
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.2f);
         this.activated = true;
-
+        //Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), false);
         // play glowing anim?
     }
 
@@ -47,6 +46,8 @@ public class Green : MonoBehaviour
         //Debug.Log(col);
         
         if (col.gameObject.tag == "Player" && this.activated){  // player has run into blob
+            this.GetComponent<Rigidbody2D>().isKinematic = true;
+            Object.Destroy(this.GetComponent<BoxCollider2D>());
             var Roo = col.GetComponent<Player>();
             Roo.eating = true;
             Roo.anim.Play("Eat");
@@ -57,8 +58,14 @@ public class Green : MonoBehaviour
         }    
     }
 
+    // void OnCollisionExit2D(Collision2D col) {
+    //     if(col.gameObject.tag == "Player" && !activated){
+    //         StartCoroutine("Activate");
+    //     }
+    // }
+
     IEnumerator EatGreen (Player Roo){
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.25f);
         Object.Destroy(this.gameObject); // destroy this object after Roo eats it
         Roo.gooMass += this.value;
         Roo.eating = false;

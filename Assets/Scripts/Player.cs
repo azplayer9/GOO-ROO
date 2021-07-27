@@ -16,21 +16,23 @@ public class Player : MonoBehaviour {
     public bool jumpCancel = false;
     public bool eating = false;
 
-    public GameManager gameState;
+    private GameManager gameState;
 
     private Rigidbody2D rig; 
     public Animator anim;
-    private GameObject indicator;
+    public GameObject indicator;
     public GameObject blobObj;
     //private new Transform camera;
     
     void Start() {
+        gameState = FindObjectOfType<GameManager>();
+
         rig = this.GetComponent<Rigidbody2D>();
         anim = this.GetComponent<Animator>();
         
         //camera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
-        indicator = GameObject.FindWithTag("Arrow");
-        indicator.SetActive(false);
+        //indicator = GameObject.FindWithTag("Arrow");
+        //indicator.SetActive(false);
 
         // initialize variables upon scene start/restart
         gooMass = 100;
@@ -50,13 +52,13 @@ public class Player : MonoBehaviour {
             var axis = Input.GetAxisRaw("Horizontal"); // get input direction
             var dist =  speed * axis * Time.deltaTime;
             // constantly update size based on gooMass
-            this.transform.localScale = new Vector3(2, 2, 2) * (this.gooMass)/100 + new Vector3(3,3,3);
+            this.transform.localScale = new Vector3(3, 3, 3) * (this.gooMass)/100 + new Vector3(2,2,2);
 
             // Code for if Goo is *NOT* jumping
             if (!jumping){
-                // on rightclick, charge the jump.
-                if (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1)) {
-                    if(!this.jumpCancel && this.gooMass >= 10f){
+                // on rightclick, charge the jump IF have enough goo.
+                if (this.gooMass > 10 && (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))) {
+                    if(!this.jumpCancel && this.gooMass >= 10f && !eating){
 
                         this.indicator.SetActive(true); // make indicator show up
                         
@@ -73,9 +75,9 @@ public class Player : MonoBehaviour {
                         this.indicator.transform.rotation = Quaternion.Euler(0, 0, (this.jumpAngle)); // * jumpDir);
                         
                         // CHARGE JUMP
-                        if(this.jumpPower < 100){ // can charge the jump to a limit (~2-4 seconds?)
+                        if(this.jumpPower < 50  && this.gooMass > Mathf.Floor(this.jumpPower / 10) + 5){ // can charge the jump to a limit (~2-4 seconds?)
                             //Debug.Log("CHARGING:" + this.jumpPower);
-                            this.jumpPower += 2;
+                            this.jumpPower += 1;
                         }
                         //else {
                             //anim.Play("JumpBlink");
@@ -121,16 +123,16 @@ public class Player : MonoBehaviour {
                 // If Right Mouse Button is no longer being held, then jump. 
                 else {
                     // conditions for actually jumping
-                    if(this.jumpPower >= 15 && SpawnBlob()){ // some soft lower bound to ensure the user cannot/does not short jump
+                    if(this.jumpPower >= 10){ // some soft lower bound to ensure the user cannot/does not short jump
                         // x = power * direction, y = power
                         this.jumping = true;
                         anim.Play("JumpRelease");
 
                         var jumpAngleRad = Mathf.PI * (90+this.jumpAngle)/180;
-                        Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad), // * this.jumpDir, 
-                                                        Mathf.Sin(jumpAngleRad)); 
-                        this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.9f) * 0.5f) , ForceMode2D.Impulse); // charging has diminishing returns
-                        
+                        Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad)/2, // * this.jumpDir, 
+                                                        Mathf.Sin(jumpAngleRad)/2 ); 
+                        this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.8f) ) , ForceMode2D.Impulse); // charging has diminishing returns
+                        SpawnBlob(10 + Mathf.Floor(this.jumpPower / 5));
                     }
                     
                     this.indicator.SetActive(false); // get rid of indicator
@@ -138,10 +140,14 @@ public class Player : MonoBehaviour {
                     this.jumpPower = 0; // reset jumpPower on mouseUp
                     jumpCancel = false;
                 }
+
+                if(Input.GetMouseButtonUp(1)){
+                    jumpCancel = false;
+                }
             }
             // assume Goo *IS* jumping
             else {
-                this.rig.AddForce( new Vector2(axis * (15f-combinedForce), 0) , ForceMode2D.Force ); // slight directional influence direction
+                this.rig.AddForce( new Vector2(axis * 0.5f * (15f-combinedForce), 0) , ForceMode2D.Force ); // slight directional influence direction
                 if (this.combinedForce < 10.0f){    
                     this.combinedForce += Mathf.Abs(axis) * 0.5f;
                 }
@@ -161,24 +167,46 @@ public class Player : MonoBehaviour {
         }
     }
 
-    private bool SpawnBlob(){
-        if (this.gooMass >= 10){
-            // instantiate new blob 
-            GameObject newBlob = Instantiate(blobObj);        
-            //newBlob.transform.position = new Vector2(this.transform.position.x, this.transform.position.y - (0.28f) );
-            newBlob.transform.position = this.transform.position;
-            newBlob.transform.localScale = this.transform.localScale;
+    private bool SpawnBlob(float val){
+        // instantiate new blob 
+        var spawnPos = this.transform.position - new Vector3(0, 0.25f, 0);
+        this.GetComponent<BoxCollider2D>().enabled = false;
 
-            //newBlob.GetComponent<Green>().SetBlobValue( this.gooMass/2 );
-            //this.gooMass /= 2; // divide goo mass by 2
-            newBlob.GetComponent<Green>().SetBlobValue( this.gooMass * .5f );
-            this.gooMass *= .5f;
-            Debug.Log("Roo has " + this.gooMass + "goo.");
-            
-            return true;
-        }
+        StartCoroutine( DelayedSpawn(val, 0.1f, spawnPos, this.transform.localScale) );
+        // GameObject newBlob = Instantiate(blobObj);        
+        // //newBlob.transform.position = new Vector2(this.transform.position.x, this.transform.position.y - (0.28f) );
+        
+        // newBlob.transform.position = this.transform.position;
+        // newBlob.transform.localScale = this.transform.localScale;
 
-        return false;
+        // //newBlob.GetComponent<Green>().SetBlobValue( this.gooMass/2 );
+        // //this.gooMass /= 2; // divide goo mass by 2
+        // newBlob.GetComponent<Green>().SetBlobValue( this.gooMass * .5f );
+        // this.gooMass *= .5f;
+        // Debug.Log("Roo has " + this.gooMass + "goo.");
+        
+        return true;
+    }
+
+    IEnumerator DelayedSpawn(float value, float delay, Vector3 pos, Vector3 scale) {
+        //this.gooMass *= .5f;
+        this.gooMass -= value;
+
+        yield return new WaitForSeconds(delay);
+        
+        GameObject newBlob = Instantiate(blobObj);        
+        //Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), newBlob.GetComponent<BoxCollider2D>(), true);
+        newBlob.transform.position = pos;
+        newBlob.transform.localScale = scale;
+
+        //newBlob.GetComponent<Green>().SetBlobValue( this.gooMass/2 );
+        //this.gooMass /= 2; // divide goo mass by 2
+        newBlob.GetComponent<Green>().SetBlobValue( value );
+        Debug.Log("Roo has " + this.gooMass + "goo.");
+
+        yield return new WaitForSeconds(delay);
+
+        this.GetComponent<BoxCollider2D>().enabled = true;
     }
 
     public void Die() {
@@ -204,6 +232,9 @@ public class Player : MonoBehaviour {
             //     pos.x = CameraControl.maxX;
             // else pos.x = this.transform.position.x;
             // camera.position = pos;
+        }
+        if(col.gameObject.tag == "Bound"){
+            this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
     }
 

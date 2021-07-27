@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
             gooBar.fillAmount = Goo.gooMass / 100;      // fill mass UI
             gooText.text = Goo.gooMass + "%";
             gooText.gameObject.SetActive(true);
-            powerBar.fillAmount = Goo.jumpPower / 100;  // fill power bar UI
+            powerBar.fillAmount = Goo.jumpPower / 50;  // fill power bar UI
             
             // reset UI display so that unpause->pause always defaults to paused buttons
             ShowPauseButtons();

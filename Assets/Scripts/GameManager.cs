@@ -39,7 +39,10 @@ public class GameManager : MonoBehaviour
             // flip the paused bool
             isPaused = !isPaused;
         }
-            
+
+        if (isDefeat) {
+            // defeat menu? fade to black/restart level
+        }   
     }
     
     // reload the current scene
