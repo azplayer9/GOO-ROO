@@ -22,31 +22,39 @@ public class Goal : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!Goal.pickedUp) {
+        if (!Goal.pickedUp) 
+        {
         var position = this.transform.position;
         
-        if(position.y <= y_init) {
+        if(position.y <= y_init) 
+        {
             trans_dir = 1.0f;
-        }else if(position.y >= y_init + .5f){
+        }
+        else if(position.y >= y_init + .5f)
+        {
             trans_dir = -1.0f;
         }
         
         position.y += 0.01f * trans_dir;
         this.transform.position = position;
-        } else {
+        }
+        else 
+        {
             // play anim (?)
-            transform.localScale *= 0.95f;
+            transform.localScale *= 0.95f; // bean currently shrinks to nothing
         }
     }
 
-    void OnTriggerEnter2D(Collider2D col){
+    void OnTriggerEnter2D(Collider2D col)
+    {
         //Debug.Log("trigger enter");
         if(col.gameObject.tag == "Player"){
             
             // destroy the bean
             Object.Destroy(this.gameObject, 1.5f);
             
-            if(!Goal.pickedUp){
+            if(!Goal.pickedUp)
+            {
                 //this.score_text.text = "Pieces Collected: " + ++score;
                 Goal.pickedUp = true;
                 gameState.isVictory = true;

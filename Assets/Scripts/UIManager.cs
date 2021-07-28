@@ -28,33 +28,39 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         // code to run if game is not paused
-        if(!gameState.isPaused) {
+        if(!gameState.isPaused) 
+        {
             gooBar.fillAmount = Goo.gooMass / 100;      // fill mass UI
             gooText.text = Goo.gooMass + "%";
             gooText.gameObject.SetActive(true);
-            powerBar.fillAmount = Goo.jumpPower / 50;  // fill power bar UI
+            powerBar.fillAmount = Goo.jumpPower / Player.jumpPowerMax;  // fill power bar UI
             
             // reset UI display so that unpause->pause always defaults to paused buttons
             ShowPauseButtons();
             PausedMenu.SetActive(false);
         }
         // if game is paused, show the pause menu
-        else {     
+        else 
+        {     
             PausedMenu.SetActive(true);
         }
         // check to play victory text
-        if (gameState.isVictory){
+        if (gameState.isVictory)
+        {
             victoryText.gameObject.SetActive(true);
+            Goo.anim.Play("Eat");  // make sure goo eats bean (maybe add a victory anim here?)
         }
         
     }
 
-    public void ShowPauseButtons() {
+    public void ShowPauseButtons() 
+    {
         PausedText.gameObject.SetActive(true);
         SettingsMenu.SetActive(false);
     }
 
-    public void ShowSettings() {
+    public void ShowSettings() 
+    {
         PausedText.gameObject.SetActive(false);
         SettingsMenu.SetActive(true);
     }

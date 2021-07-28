@@ -11,32 +11,35 @@ public class TitleUIManager : MonoBehaviour
     public bool skipTutorial = false;
 
     // Start is called before the first frame update
-    void Start() {
+    void Start() 
+    {
         TitleMenu.SetActive(true);
         SettingsMenu.SetActive(false);
     }
-
-    // Update is called once per frame
-    void Update() {}
     
     // start game
-    public void StartGame() {
-        if(skipTutorial){ // maybe make this a playerprefs so it saves over time
+    public void StartGame() 
+    {
+        if(skipTutorial) // make skipTutorial a playerprefs so it saves over time; changeable in settings?
+        { 
             SceneManager.LoadScene( "Level1" ); // load first level scene
         }
-        else {
+        else 
+        {
             SceneManager.LoadScene( "1_Tutorial" ); // load tutorial scene
         }
     }
     
     // open settings menu
-    public void OpenSettings() {
+    public void OpenSettings() 
+    {
         TitleMenu.SetActive(false);
         SettingsMenu.SetActive(true);
     }    
     
     // return to title screen
-    public void ReturnToTitle() {
+    public void ReturnToTitle() 
+    {
         TitleMenu.SetActive(true);
         SettingsMenu.SetActive(false);
     }

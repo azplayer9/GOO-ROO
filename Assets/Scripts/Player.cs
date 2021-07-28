@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour 
+{
     
+    public static float jumpPowerMin = 10f;
+    public static float jumpPowerMax = 60f;
+
     public float speed = 5.0f;
     public float gooMass = 100;
     public float combinedForce = 0;
@@ -24,7 +28,8 @@ public class Player : MonoBehaviour {
     public GameObject blobObj;
     //private new Transform camera;
     
-    void Start() {
+    void Start() 
+    {
         gameState = FindObjectOfType<GameManager>();
 
         rig = this.GetComponent<Rigidbody2D>();
@@ -47,44 +52,55 @@ public class Player : MonoBehaviour {
         eating = false;
     }
 
-    void FixedUpdate() {
-        if(!gameState.isVictory && !gameState.isDefeat){
+    void FixedUpdate() 
+    {
+        if(!gameState.isVictory && !gameState.isDefeat)
+        {
             var axis = Input.GetAxisRaw("Horizontal"); // get input direction
             var dist =  speed * axis * Time.deltaTime;
             // constantly update size based on gooMass
             this.transform.localScale = new Vector3(3, 3, 3) * (this.gooMass)/100 + new Vector3(2,2,2);
 
             // Code for if Goo is *NOT* jumping
-            if (!jumping){
+            if (!jumping)
+            {
                 // on rightclick, charge the jump IF have enough goo.
-                if (this.gooMass > 10 && (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))) {
-                    if(!this.jumpCancel && this.gooMass >= 10f && !eating){
-
+                if (this.gooMass > 10 && (Input.GetMouseButton(1) || Input.GetMouseButtonDown(1))) 
+                {
+                    if(!this.jumpCancel && this.gooMass >= 10f && !eating)
+                    {
                         this.indicator.SetActive(true); // make indicator show up
                         
-                        if (this.walk){
+                        if (this.walk)
+                        {
                             this.walk = false; // disable normal movement
                             anim.Play("JumpCharge");
                             
                         }
                         
                         // shifting jumpAngle/indicator using input axis
-                        if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90){
+                        if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90)
+                        {
                             this.jumpAngle -= axis * SettingsManager.angle_sensitivity; // default angle sensitivity is 3.0f
                         }
+
                         this.indicator.transform.rotation = Quaternion.Euler(0, 0, (this.jumpAngle)); // * jumpDir);
                         
                         // CHARGE JUMP
-                        if(this.jumpPower < 50  && this.gooMass > Mathf.Floor(this.jumpPower / 10) + 5){ // can charge the jump to a limit (~2-4 seconds?)
+                        if( 9 + Mathf.Floor(this.jumpPower / 5) < this.gooMass &&       // goo needs to make sure he doesnt use up all his resources to jump
+                            this.jumpPower < jumpPowerMax )                             // can charge the jump to a limit (~2-4 seconds?)
+                        {
                             //Debug.Log("CHARGING:" + this.jumpPower);
                             this.jumpPower += 1;
                         }
-                        //else {
-                            //anim.Play("JumpBlink");
-                        //}
+                        else {
+                            anim.Play("JumpBlink");
+                        }
                     }
+
                     // CANCEL JUMP
-                    if (Input.GetMouseButton(0)){ // cancel jump on left click
+                    if (Input.GetMouseButton(0)) // cancel jump on left click
+                    {
                         this.walk = true; // re-enable normal movement
                         this.indicator.SetActive(false); // get rid of indicator
                         anim.Play("Idle");
@@ -123,7 +139,7 @@ public class Player : MonoBehaviour {
                 // If Right Mouse Button is no longer being held, then jump. 
                 else {
                     // conditions for actually jumping
-                    if(this.jumpPower >= 10){ // some soft lower bound to ensure the user cannot/does not short jump
+                    if(this.jumpPower >= jumpPowerMin){ // some soft lower bound to ensure the user cannot/does not short jump
                         // x = power * direction, y = power
                         this.jumping = true;
                         anim.Play("JumpRelease");
@@ -132,7 +148,7 @@ public class Player : MonoBehaviour {
                         Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad)/2, // * this.jumpDir, 
                                                         Mathf.Sin(jumpAngleRad)/2 ); 
                         this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.8f) ) , ForceMode2D.Impulse); // charging has diminishing returns
-                        SpawnBlob(10 + Mathf.Floor(this.jumpPower / 5));
+                        SpawnBlob(8 + Mathf.Floor(this.jumpPower / 5));
                     }
                     
                     this.indicator.SetActive(false); // get rid of indicator
