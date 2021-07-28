@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     {
         //victoryText = GameObject.FindWithTag("Victory").GetComponent<TextMeshProUGUI>();
         //victoryText.gameObject.SetActive(false);
+        this.Goo = FindObjectOfType<Player>();
     }
 
     void Update()

@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 
     public float speed = 5.0f;
     public float gooMass = 100;
+    public float gravScale = 1.0f; //  gravity scale ** CHABGE THIS NAMNE **
     public float combinedForce = 0;
     private float jumpAngle = 0; // angle at which Goo will jump
     public float jumpPower = 0; // force with which Goo will jump
@@ -69,8 +70,10 @@ public class Player : MonoBehaviour
                 {
                     if(!this.jumpCancel && this.gooMass >= 10f && !eating)
                     {
-                        this.indicator.SetActive(true); // make indicator show up
                         
+                        this.indicator.SetActive(true); // make indicator show up
+                        this.rig.gravityScale = gravScale/20; // reduce rig.mass
+
                         if (this.walk)
                         {
                             this.walk = false; // disable normal movement
@@ -79,10 +82,12 @@ public class Player : MonoBehaviour
                         }
                         
                         // shifting jumpAngle/indicator using input axis
-                        if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90)
-                        {
-                            this.jumpAngle -= axis * SettingsManager.angle_sensitivity; // default angle sensitivity is 3.0f
-                        }
+
+                            if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90)
+                            {
+                                this.jumpAngle -= axis * SettingsManager.angle_sensitivity; // default angle sensitivity is 3.0f
+                            }
+
 
                         this.indicator.transform.rotation = Quaternion.Euler(0, 0, (this.jumpAngle)); // * jumpDir);
                         
@@ -93,7 +98,8 @@ public class Player : MonoBehaviour
                             //Debug.Log("CHARGING:" + this.jumpPower);
                             this.jumpPower += 1;
                         }
-                        else {
+                        else 
+                        {
                             anim.Play("JumpBlink");
                         }
                     }
@@ -102,6 +108,7 @@ public class Player : MonoBehaviour
                     if (Input.GetMouseButton(0)) // cancel jump on left click
                     {
                         this.walk = true; // re-enable normal movement
+                        this.rig.gravityScale = this.gravScale;// reset rigidbody mass
                         this.indicator.SetActive(false); // get rid of indicator
                         anim.Play("Idle");
 
@@ -111,44 +118,60 @@ public class Player : MonoBehaviour
                     }
                 }
                 // if Goo can walk and S is not being held, then move
-                else if (this.walk){
-                    if(!eating){
-                        if(axis != 0) {
+                else if (this.walk)
+                {
+                    if(!eating)
+                    {
+                        if(axis != 0) 
+                        {
                             anim.Play("Hop");
                         }
-                        else {
+                        else 
+                        {
                             anim.Play("Idle");
                         }
                     }
                     
                     var pos = rig.position;
                     
-                    if (this.grounded){     // normal movement
+                    if (this.grounded)      // normal movement
+                    {
                         pos.x += dist;
                         this.rig.velocity = Vector2.zero;
                     }
-                    else {                  // mid-air movement
+                    else                    // mid-air movement
+                    {
                         pos.x += dist * ((10f - (combinedForce)) / 10f); // weaker directional influence if goo is midair (weakens over time)
                         // update combinedForce so DI gets weaker over time
-                        if (combinedForce < 5f) {
+                        if (combinedForce < 5f) 
+                        {
                             combinedForce += Mathf.Abs(dist) * ((10f - (combinedForce)) / 10f);
                         }
                     }
                     rig.position = pos;
                 } 
-                // If Right Mouse Button is no longer being held, then jump. 
-                else {
-                    // conditions for actually jumping
-                    if(this.jumpPower >= jumpPowerMin){ // some soft lower bound to ensure the user cannot/does not short jump
+                // If Right Mouse Button is no longer being held, then try to jumpjump. 
+                else 
+                {
+                    // Condition to actually jump
+                    if(this.jumpPower >= jumpPowerMin) // some soft lower bound to ensure the user cannot/does not short jump
+                    {
+                        // Handling JUMP action
                         // x = power * direction, y = power
                         this.jumping = true;
+
+                        this.rig.gravityScale = gravScale;
                         anim.Play("JumpRelease");
 
                         var jumpAngleRad = Mathf.PI * (90+this.jumpAngle)/180;
                         Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad)/2, // * this.jumpDir, 
                                                         Mathf.Sin(jumpAngleRad)/2 ); 
+
+                        //this.rig.velocity = Vector2.zero; // set velocity to 0 before jumping
+                        this.rig.velocity -= new Vector2(0f, 2f); // in case of mid-air jump
+
                         this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.8f) ) , ForceMode2D.Impulse); // charging has diminishing returns
-                        SpawnBlob(8 + Mathf.Floor(this.jumpPower / 5));
+                        SpawnBlob(8 + Mathf.Floor(this.jumpPower / 5)); // spawn a blob after jumping
                     }
                     
                     this.indicator.SetActive(false); // get rid of indicator
@@ -157,14 +180,17 @@ public class Player : MonoBehaviour
                     jumpCancel = false;
                 }
 
-                if(Input.GetMouseButtonUp(1)){
+                if(Input.GetMouseButtonUp(1))
+                {
                     jumpCancel = false;
                 }
             }
-            // assume Goo *IS* jumping
-            else {
+            // assume Goo *IS JUMPING* (handling mid-air movement)
+            else 
+            {
                 this.rig.AddForce( new Vector2(axis * 0.5f * (15f-combinedForce), 0) , ForceMode2D.Force ); // slight directional influence direction
-                if (this.combinedForce < 10.0f){    
+                if (this.combinedForce < 10.0f)
+                {    
                     this.combinedForce += Mathf.Abs(axis) * 0.5f;
                 }
             }
@@ -174,8 +200,10 @@ public class Player : MonoBehaviour
             // }
 
             // if indicator is active, change angle
-            if(this.indicator.activeSelf){
-                if(Input.GetKeyDown(KeyCode.Space)){ // pressing spacebar when setting angle resets angle to 0 (pointing up)
+            if(this.indicator.activeSelf)
+            {
+                if(Input.GetKeyDown(KeyCode.Space)) // pressing spacebar when setting angle resets angle to 0 (pointing up)
+                {
                     this.jumpAngle = 0;
                 }
             }
@@ -183,7 +211,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool SpawnBlob(float val){
+    private bool SpawnBlob(float val)
+    {
         // instantiate new blob 
         var spawnPos = this.transform.position - new Vector3(0, 0.25f, 0);
         this.GetComponent<BoxCollider2D>().enabled = false;
@@ -204,7 +233,8 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    IEnumerator DelayedSpawn(float value, float delay, Vector3 pos, Vector3 scale) {
+    IEnumerator DelayedSpawn(float value, float delay, Vector3 pos, Vector3 scale) 
+    {
         //this.gooMass *= .5f;
         this.gooMass -= value;
 
@@ -225,14 +255,17 @@ public class Player : MonoBehaviour
         this.GetComponent<BoxCollider2D>().enabled = true;
     }
 
-    public void Die() {
+    public void Die() 
+    {
         // play death animation
         Object.Destroy(this.gameObject);
         gameState.isDefeat = true; 
     }
 
-    void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject.tag == "Ground"){
+    void OnCollisionEnter2D(Collision2D col) 
+    {
+        if (col.gameObject.tag == "Ground")
+        {
             this.grounded = true;
             this.jumping = false;
             this.combinedForce = 0;
@@ -249,13 +282,24 @@ public class Player : MonoBehaviour
             // else pos.x = this.transform.position.x;
             // camera.position = pos;
         }
-        if(col.gameObject.tag == "Bound"){
+        if(col.gameObject.tag == "Bound")
+        {
             this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
+        if(col.gameObject.tag == "Sticky")
+        {
+            jumpCancel = true;
+        }
+        else 
+        {
+            jumpCancel = false;
         }
     }
 
-    void OnCollisionExit2D(Collision2D col) {
-        if (col.gameObject.tag == "Ground"){
+    void OnCollisionExit2D(Collision2D col) 
+    {
+        if (col.gameObject.tag == "Ground")
+        {
             this.grounded = false;
             //this.indicator.SetActive(false); // make indicator show up
         }

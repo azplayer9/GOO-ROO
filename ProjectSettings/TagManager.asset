@@ -9,6 +9,7 @@ TagManager:
   - Green
   - Victory
   - Bound
+  - Sticky
   layers:
   - Default
   - TransparentFX
