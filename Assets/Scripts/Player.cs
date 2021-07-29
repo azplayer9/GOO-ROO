@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
         eating = false;
     }
 
-    void Update() 
+    void FixedUpdate() 
     {
         // set sfx volume based on settings
         this.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("sfxVol", 50)/100;
@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
         {
             var axis = Input.GetAxisRaw("Horizontal"); // get input direction
             //Debug.Log(axis);
-            var dist =  speed * axis * Time.deltaTime;
+            var dist =  speed * axis * Time.fixedDeltaTime;
             // constantly update size based on gooMass
             this.transform.localScale = new Vector3(3, 3, 3) * (this.gooMass)/100 + new Vector3(2,2,2);
 
@@ -89,12 +89,11 @@ public class Player : MonoBehaviour
                             this.walk = false; // disable normal movement
                             anim.Play("JumpCharge");
                             audio.PlayOneShot(chargeSFX);
-                            
                         }
                         
                         // shifting jumpAngle/indicator using input axis
 
-                            if (this.jumpAngle - axis * 10 < 90 && this.jumpAngle - axis * 10 > -90)
+                            if (this.jumpAngle - axis * 10 < 80 && this.jumpAngle - axis * 10 > -80)
                             {
                                 this.jumpAngle -= axis * SettingsManager.angle_sensitivity; // default angle sensitivity is 3.0f
                             }
@@ -138,7 +137,6 @@ public class Player : MonoBehaviour
                         if(axis != 0) 
                         {
                             anim.Play("Hop");
-                            
                         }
                         else 
                         {
@@ -151,7 +149,7 @@ public class Player : MonoBehaviour
                     if (this.grounded)      // normal movement
                     {
                         pos.x += dist;
-                        this.rig.velocity = Vector2.zero;
+                        //this.rig.velocity = Vector2.zero;
                     }
                     else                    // mid-air movement
                     {
@@ -173,6 +171,7 @@ public class Player : MonoBehaviour
                         // Handling JUMP action
                         // x = power * direction, y = power
                         this.jumping = true;
+                        this.grounded = false;
                         this.rig.gravityScale = gravScale;
                         
                         anim.Play("JumpRelease");
@@ -295,6 +294,7 @@ public class Player : MonoBehaviour
             // kill any momentum (identified by what kind of blocks are interacted with?)
             //this.rig.velocity = new Vector2(this.rig.velocity.x * -3f, this.rig.velocity.y);
             //this.rig.angularVelocity = 0;
+            this.rig.velocity = Vector2.zero;
 
             // set camera transform to player
             // var pos = camera.position;
@@ -321,9 +321,7 @@ public class Player : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D col) 
     {
-        if (col.gameObject.tag == "Ground" && 
-            !anim.GetCurrentAnimatorStateInfo(0).IsName("Hop") &&
-            !anim.GetCurrentAnimatorStateInfo(0).IsName("JumpCharge"))
+        if (col.gameObject.tag == "Ground")
         {
             this.grounded = false;
             //this.indicator.SetActive(false); // make indicator show up

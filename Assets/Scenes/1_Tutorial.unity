@@ -1705,7 +1705,7 @@ TilemapCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 1
   m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
+  m_MaximumTileChangeCount: 500
   m_ExtrusionFactor: 0.00001
 --- !u!483693784 &618011239
 TilemapRenderer:
@@ -16444,6 +16444,21 @@ PrefabInstance:
       propertyPath: m_Interpolate
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1438083336036364712, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438083336036364712, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_UseAutoMass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1438083336036364712, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 2893734379460221297, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
       propertyPath: m_Name
@@ -16523,6 +16538,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Material
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.39473686
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_AutoTiling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836782915541382700, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.40000004
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd4752a7933caa042bb03c1eeeebf8f3, type: 3}
