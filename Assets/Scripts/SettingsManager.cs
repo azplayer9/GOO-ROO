@@ -8,8 +8,8 @@ using TMPro;
 public class SettingsManager : MonoBehaviour
 {
     
-    public static float bgm_volume = 5.0f;
-    public static float sfx_volume = 5.0f;
+    public static float bgm_volume = 50f;
+    public static float sfx_volume = 50f;
     public static float angle_sensitivity = 3.0f;
     
     public Slider bgm;
@@ -21,11 +21,11 @@ public class SettingsManager : MonoBehaviour
     public TextMeshProUGUI angleSens_val;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         // Initialize PlayerPrefs
-        bgm_volume = PlayerPrefs.GetInt("bgmVol", 50);
-        sfx_volume = PlayerPrefs.GetInt("sfxVol", 50);
+        bgm_volume = PlayerPrefs.GetFloat("bgmVol", 50);
+        sfx_volume = PlayerPrefs.GetFloat("sfxVol", 50);
         angle_sensitivity = PlayerPrefs.GetFloat("angleSens", 3.0f);
         
         // Change Sliders

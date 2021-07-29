@@ -27,6 +27,12 @@ public class Player : MonoBehaviour
     public Animator anim;
     public GameObject indicator;
     public GameObject blobObj;
+    public AudioSource audio;
+
+    public AudioClip bounceSFX;
+    public AudioClip chargeSFX;
+    //public AudioClip chargeLoopSFX;
+    
     //private new Transform camera;
     
     void Start() 
@@ -53,11 +59,15 @@ public class Player : MonoBehaviour
         eating = false;
     }
 
-    void FixedUpdate() 
+    void Update() 
     {
+        // set sfx volume based on settings
+        this.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("sfxVol", 50)/100;
+
         if(!gameState.isVictory && !gameState.isDefeat)
         {
             var axis = Input.GetAxisRaw("Horizontal"); // get input direction
+            //Debug.Log(axis);
             var dist =  speed * axis * Time.deltaTime;
             // constantly update size based on gooMass
             this.transform.localScale = new Vector3(3, 3, 3) * (this.gooMass)/100 + new Vector3(2,2,2);
@@ -72,12 +82,13 @@ public class Player : MonoBehaviour
                     {
                         
                         this.indicator.SetActive(true); // make indicator show up
-                        this.rig.gravityScale = gravScale/20; // reduce rig.mass
+                        this.rig.gravityScale = gravScale/10; // reduce gravity if charging mid-air
 
                         if (this.walk)
                         {
                             this.walk = false; // disable normal movement
                             anim.Play("JumpCharge");
+                            audio.PlayOneShot(chargeSFX);
                             
                         }
                         
@@ -101,6 +112,8 @@ public class Player : MonoBehaviour
                         else 
                         {
                             anim.Play("JumpBlink");
+                            if(!audio.isPlaying)
+                                audio.Play();   
                         }
                     }
 
@@ -111,7 +124,7 @@ public class Player : MonoBehaviour
                         this.rig.gravityScale = this.gravScale;// reset rigidbody mass
                         this.indicator.SetActive(false); // get rid of indicator
                         anim.Play("Idle");
-
+                        audio.Stop();
                         //this.jumpAngle = 0;
                         this.jumpPower = 0; // reset jumpPower on mouseUp
                         this.jumpCancel = true;
@@ -125,6 +138,7 @@ public class Player : MonoBehaviour
                         if(axis != 0) 
                         {
                             anim.Play("Hop");
+                            
                         }
                         else 
                         {
@@ -159,9 +173,11 @@ public class Player : MonoBehaviour
                         // Handling JUMP action
                         // x = power * direction, y = power
                         this.jumping = true;
-
                         this.rig.gravityScale = gravScale;
+                        
                         anim.Play("JumpRelease");
+                        audio.Stop();
+                        audio.PlayOneShot(bounceSFX);
 
                         var jumpAngleRad = Mathf.PI * (90+this.jumpAngle)/180;
                         Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad)/2, // * this.jumpDir, 
@@ -173,7 +189,9 @@ public class Player : MonoBehaviour
                         this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.8f) ) , ForceMode2D.Impulse); // charging has diminishing returns
                         SpawnBlob(8 + Mathf.Floor(this.jumpPower / 5)); // spawn a blob after jumping
                     }
-                    
+                    else{
+                        audio.Stop();
+                    }
                     this.indicator.SetActive(false); // get rid of indicator
                     this.walk = true; // re-enable normal movement
                     this.jumpPower = 0; // reset jumpPower on mouseUp
@@ -209,12 +227,17 @@ public class Player : MonoBehaviour
             }
 
         }
+        else {
+            this.rig.velocity = Vector2.zero;
+            this.rig.isKinematic = true;
+            // play victory animation? 
+        }
     }
 
     private bool SpawnBlob(float val)
     {
         // instantiate new blob 
-        var spawnPos = this.transform.position - new Vector3(0, 0.25f, 0);
+        var spawnPos = this.transform.position - new Vector3(0, 0.15f, 0);
         this.GetComponent<BoxCollider2D>().enabled = false;
 
         StartCoroutine( DelayedSpawn(val, 0.1f, spawnPos, this.transform.localScale) );
@@ -270,7 +293,7 @@ public class Player : MonoBehaviour
             this.jumping = false;
             this.combinedForce = 0;
             // kill any momentum (identified by what kind of blocks are interacted with?)
-            //this.rig.velocity = Vector2.zero;
+            //this.rig.velocity = new Vector2(this.rig.velocity.x * -3f, this.rig.velocity.y);
             //this.rig.angularVelocity = 0;
 
             // set camera transform to player
@@ -286,19 +309,21 @@ public class Player : MonoBehaviour
         {
             this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
-        if(col.gameObject.tag == "Sticky")
-        {
-            jumpCancel = true;
-        }
-        else 
-        {
-            jumpCancel = false;
-        }
+        // if(col.gameObject.tag == "Sticky")
+        // {
+        //     jumpCancel = true;
+        // }
+        // else 
+        // {
+        //     jumpCancel = false;
+        // }
     }
 
     void OnCollisionExit2D(Collision2D col) 
     {
-        if (col.gameObject.tag == "Ground")
+        if (col.gameObject.tag == "Ground" && 
+            !anim.GetCurrentAnimatorStateInfo(0).IsName("Hop") &&
+            !anim.GetCurrentAnimatorStateInfo(0).IsName("JumpCharge"))
         {
             this.grounded = false;
             //this.indicator.SetActive(false); // make indicator show up
