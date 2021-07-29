@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI PausedText;
     public GameObject SettingsMenu;
     public TextMeshProUGUI victoryText;
+    public TextMeshProUGUI defeatText;
     
     
     void Start()
@@ -45,11 +46,16 @@ public class UIManager : MonoBehaviour
         {     
             PausedMenu.SetActive(true);
         }
+
         // check to play victory text
         if (gameState.isVictory)
         {
             victoryText.gameObject.SetActive(true);
             Goo.anim.Play("Eat");  // make sure goo eats bean (maybe add a victory anim here?)
+        }
+        else if(gameState.isDefeat)
+        {
+            defeatText.gameObject.SetActive(true);
         }
         
     }
