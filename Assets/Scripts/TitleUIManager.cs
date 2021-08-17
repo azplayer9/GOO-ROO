@@ -9,6 +9,7 @@ public class TitleUIManager : MonoBehaviour
     public GameObject TitleMenu;
     public GameObject SettingsMenu;
     public bool skipTutorial = false;
+    public int savedLevel = -1; // save last level completed in player prefs; called in StartGame()
 
     // Start is called before the first frame update
     void Start() 
@@ -17,10 +18,11 @@ public class TitleUIManager : MonoBehaviour
         SettingsMenu.SetActive(false);
     }
     
-    // start game
+    // start game (click on play)
     public void StartGame() 
     {
-        if(skipTutorial) // make skipTutorial a playerprefs so it saves over time; changeable in settings?
+        // load last level - if last level == -1, go to tutorial instead
+        if(skipTutorial) // make skipTutorial changeable in settings?
         { 
             SceneManager.LoadScene( "Level1" ); // load first level scene
         }

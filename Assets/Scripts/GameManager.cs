@@ -47,7 +47,8 @@ public class GameManager : MonoBehaviour
     
     // reload the current scene
     public void RestartLevel() {    
-        SceneManager.LoadScene( SceneManager.GetActiveScene().name );
+        //SceneManager.LoadScene( SceneManager.GetActiveScene().name );
+        GoToLevel(-1);
     }
 
     // pause/unpause game based on current pause state
@@ -59,6 +60,23 @@ public class GameManager : MonoBehaviour
         else {
             Time.timeScale = 0; // if not paused, pause
             //Debug.Log("pause");
+        }
+    }
+
+    // go directly to a level (from level select)
+    public void GoToLevel(int levelNum)
+    {
+        if(levelNum < 1 ) // Level 0 and Level -1 have different soundtracks
+        {
+            Destroy(GameObject.FindGameObjectWithTag("Respawn")); // destroy the soundtrack object currently playing
+        }
+        if(levelNum < 9 ){
+            var name = "Level"+ levelNum;
+            print(name);
+            SceneManager.LoadScene("Level"+ levelNum);
+        }
+        else{
+            Debug.Log("Level not added yet.");
         }
     }
 

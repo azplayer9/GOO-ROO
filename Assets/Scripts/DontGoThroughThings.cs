@@ -1,6 +1,7 @@
 ﻿// Original source: Unify Community Wiki - https://wiki.unity3d.com/index.php/DontGoThroughThings
-// This script uses raycasting to avoid the physics engine letting fast-moving objects go through other objects (particularly meshes).
 //
+// This script uses raycasting to avoid the physics engine letting fast-moving objects go through other objects (particularly meshes).
+// Used to counteract clipping through walls /platforms during jump
 // NOTE: This script was modified by me for use in a 2D environment.
 
 using UnityEngine;
