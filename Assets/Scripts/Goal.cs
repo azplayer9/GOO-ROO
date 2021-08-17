@@ -24,19 +24,19 @@ public class Goal : MonoBehaviour
     {
         if (!Goal.pickedUp) 
         {
-        var position = this.transform.position;
-        
-        if(position.y <= y_init) 
-        {
-            trans_dir = 1.0f;
-        }
-        else if(position.y >= y_init + .5f)
-        {
-            trans_dir = -1.0f;
-        }
-        
-        position.y += 0.01f * trans_dir;
-        this.transform.position = position;
+            var position = this.transform.position;
+            
+            if(position.y <= y_init) 
+            {
+                trans_dir = 1.0f;
+            }
+            else if(position.y >= y_init + .5f)
+            {
+                trans_dir = -1.0f;
+            }
+            
+            position.y += 0.01f * trans_dir;
+            this.transform.position = position;
         }
         else 
         {

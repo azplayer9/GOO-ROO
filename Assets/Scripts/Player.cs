@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     public Animator anim;
     public GameObject indicator;
     public GameObject blobObj;
-    public AudioSource audio;
+    //public AudioSource audio;
 
     public AudioClip bounceSFX;
     public AudioClip chargeSFX;
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
     void FixedUpdate() 
     {
         // set sfx volume based on settings
-        this.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("sfxVol", 50)/100;
+        this.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("sfxVol", 50)/500;
 
         if(!gameState.isVictory && !gameState.isDefeat)
         {
@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
                         {
                             this.walk = false; // disable normal movement
                             anim.Play("JumpCharge");
-                            audio.PlayOneShot(chargeSFX);
+                            this.GetComponent<AudioSource>().PlayOneShot(chargeSFX);
                         }
                         
                         // shifting jumpAngle/indicator using input axis
@@ -111,8 +111,8 @@ public class Player : MonoBehaviour
                         else 
                         {
                             anim.Play("JumpBlink");
-                            if(!audio.isPlaying)
-                                audio.Play();   
+                            if(!GetComponent<AudioSource>().isPlaying)
+                                GetComponent<AudioSource>().Play();   
                         }
                     }
 
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
                         this.rig.gravityScale = this.gravScale;// reset rigidbody mass
                         this.indicator.SetActive(false); // get rid of indicator
                         anim.Play("Idle");
-                        audio.Stop();
+                        GetComponent<AudioSource>().Stop();
                         //this.jumpAngle = 0;
                         this.jumpPower = 0; // reset jumpPower on mouseUp
                         this.jumpCancel = true;
@@ -175,8 +175,8 @@ public class Player : MonoBehaviour
                         this.rig.gravityScale = gravScale;
                         
                         anim.Play("JumpRelease");
-                        audio.Stop();
-                        audio.PlayOneShot(bounceSFX);
+                        GetComponent<AudioSource>().Stop();
+                        GetComponent<AudioSource>().PlayOneShot(bounceSFX);
 
                         var jumpAngleRad = Mathf.PI * (90+this.jumpAngle)/180;
                         Vector2 jumpVec = new Vector2(  Mathf.Cos(jumpAngleRad)/2, // * this.jumpDir, 
@@ -189,7 +189,7 @@ public class Player : MonoBehaviour
                         SpawnBlob(8 + Mathf.Floor(this.jumpPower / 5)); // spawn a blob after jumping
                     }
                     else{
-                        audio.Stop();
+                        GetComponent<AudioSource>().Stop();
                     }
                     this.indicator.SetActive(false); // get rid of indicator
                     this.walk = true; // re-enable normal movement

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1485926441428313997}
   - component: {fileID: 6678561517928155694}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Jump Indicator
   m_TagString: Arrow
   m_Icon: {fileID: 0}
@@ -127,7 +127,8 @@ GameObject:
   - component: {fileID: 5318615616419113561}
   - component: {fileID: 2659697127267529405}
   - component: {fileID: 3978730215097427026}
-  m_Layer: 0
+  - component: {fileID: 8047383024595758685}
+  m_Layer: 8
   m_Name: Roo
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -271,7 +272,6 @@ MonoBehaviour:
   anim: {fileID: 2659697127267529405}
   indicator: {fileID: 2681847765725111240}
   blobObj: {fileID: 3040274393058166273, guid: 6bbb0549601062941ae45ad4e1dbff2a, type: 3}
-  audio: {fileID: 3978730215097427026}
   bounceSFX: {fileID: 8300000, guid: adb4063cfac876e46a3af2138b465108, type: 3}
   chargeSFX: {fileID: 8300000, guid: 34afc925bd64fdd4fab2abc9b35ea071, type: 3}
 --- !u!95 &2659697127267529405
@@ -389,3 +389,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8047383024595758685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794133766178911847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0b6b0f3891bc7478b07f8520dd86ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendTriggerMessage: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 5
+  skinWidth: 0.1

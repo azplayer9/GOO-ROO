@@ -70,5 +70,6 @@ public class GameManager : MonoBehaviour
     // return to main menu scene
     public void ReturnToMenu() {
         SceneManager.LoadScene("0_Title");
+        Destroy(GameObject.FindGameObjectWithTag("Respawn"));
     }
 }
