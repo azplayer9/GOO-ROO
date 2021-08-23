@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour
         }
         if(levelNum < 9 ){
             var name = "Level"+ levelNum;
-            print(name);
+            //print(name);
             SceneManager.LoadScene("Level"+ levelNum);
         }
         else{
@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
 
     // return to main menu scene
     public void ReturnToMenu() {
-        SceneManager.LoadScene("0_Title");
         Destroy(GameObject.FindGameObjectWithTag("Respawn"));
+        SceneManager.LoadScene("0_Title");
     }
 }

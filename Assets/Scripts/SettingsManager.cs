@@ -33,7 +33,6 @@ public class SettingsManager : MonoBehaviour
         sfx_volume = PlayerPrefs.GetFloat("sfxVol", 50);
         angle_sensitivity = PlayerPrefs.GetFloat("angleSens", 3.0f);
         skip_tutorial = PlayerPrefs.GetInt("skipTutorial", 0);
-        print(skip_tutorial);
 
         // Change Sliders
         bgm.value = bgm_volume;

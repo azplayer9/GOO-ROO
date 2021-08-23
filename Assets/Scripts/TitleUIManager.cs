@@ -23,6 +23,7 @@ public class TitleUIManager : MonoBehaviour
     // start game (click on play)
     public void StartGame() 
     {
+        Destroy(GameObject.FindGameObjectWithTag("Respawn"));
         if(PlayerPrefs.GetInt("skipTutorial") > 0) // make skipTutorial changeable in settings?
         { 
             SceneManager.LoadScene( "Level1" ); // load first level scene
@@ -38,6 +39,7 @@ public class TitleUIManager : MonoBehaviour
     public void GoToLevelSelect()
     {
         SceneManager.LoadScene( "Level0" ); // load tutorial scene
+        Destroy(GameObject.FindGameObjectWithTag("Respawn"));
     }
     
     // open settings menu
