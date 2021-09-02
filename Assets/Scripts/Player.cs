@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     public float speed = 5.0f;
     public float gooMass = 100;
-    public float gravScale = 1.0f; //  gravity scale ** CHABGE THIS NAMNE **
+    public float gravScale = 1.0f; //  gravity scale ** CHANGE THIS NAMNE **
     public float combinedForce = 0;
     private float jumpAngle = 0; // angle at which Goo will jump
     public float jumpPower = 0; // force with which Goo will jump

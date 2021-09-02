@@ -19,11 +19,18 @@ public class killZone : MonoBehaviour
     }
 
     public void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject.tag == "Player" && !gameState.isVictory){
+        if (col.gameObject.tag == "Player" && !gameState.isVictory)
+        {
             // handle player death in Player Class
             col.gameObject.GetComponent<Player>().Die(); 
         }
         else {
+            
+            if (col.gameObject.name == "gooAsset" && !gameState.isVictory) 
+            {
+                gameState.isDefeat = true;
+            }
+
             Object.Destroy(col.gameObject);
         }
     }

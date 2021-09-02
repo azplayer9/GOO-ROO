@@ -35,7 +35,7 @@ public class Green : MonoBehaviour
     }
 
     IEnumerator Activate(){
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         this.activated = true;
         //Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), false);
         // play glowing anim?
