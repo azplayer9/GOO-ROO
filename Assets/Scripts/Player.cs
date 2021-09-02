@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
         rig = rooBody.GetComponent<Rigidbody2D>();
         anim = this.GetComponent<Animator>();
         
-        Debug.Log(initialSize);
+        //Debug.Log(initialSize);
         //camera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         //indicator = GameObject.FindWithTag("Arrow");
         //indicator.SetActive(false);
@@ -62,6 +62,8 @@ public class Player : MonoBehaviour
         walk = true;
         jumpCancel = false;
         eating = false;
+
+        rooBody.transform.localScale = initialSize * (this.gooMass)/50 + initialSize; 
     }
 
     void FixedUpdate() 
@@ -76,7 +78,7 @@ public class Player : MonoBehaviour
             var dist =  speed * axis * Time.fixedDeltaTime;
 
             // constantly update size based on gooMass -- scales from initial size to 3x initial size
-            rooBody.transform.localScale = initialSize * (this.gooMass)/50 + initialSize; 
+            // rooBody.transform.localScale = initialSize * (this.gooMass)/50 + initialSize; 
 
             // Code for if Goo is *NOT* jumping
             if (!jumping)
@@ -190,6 +192,10 @@ public class Player : MonoBehaviour
 
                         //this.rig.velocity = Vector2.zero; // set velocity to 0 before jumping
                         this.rig.velocity -= new Vector2(0f, 2f); // in case of mid-air jump
+                        
+                        if(gooMass <= 40f){
+                             jumpVec *= 1.3f; // makes smaller goo jump a little bit higher
+                        }
 
                         this.rig.AddForce(jumpVec * ( Mathf.Pow(this.jumpPower, 0.8f) ) , ForceMode2D.Impulse); // charging has diminishing returns
                         SpawnBlob(8 + Mathf.Floor(this.jumpPower / 5)); // spawn a blob after jumping
@@ -270,17 +276,18 @@ public class Player : MonoBehaviour
     {
         //this.gooMass *= .5f;
         this.gooMass -= value;
-
         yield return new WaitForSeconds(delay);
         
         GameObject newBlob = Instantiate(blobObj);        
         newBlob.transform.position = pos;
-        newBlob.transform.localScale = scale;
+        newBlob.transform.localScale = scale * (value/20);
+
+        rooBody.transform.localScale = initialSize * (this.gooMass)/50 + initialSize; 
 
         //newBlob.GetComponent<Green>().SetBlobValue( this.gooMass/2 );
         //this.gooMass /= 2; // divide goo mass by 2
         newBlob.GetComponent<Green>().SetBlobValue( value );
-        Debug.Log("Roo has " + this.gooMass + "goo.");
+        //Debug.Log("Roo has " + this.gooMass + "goo.");
 
         yield return new WaitForSeconds(delay);
 

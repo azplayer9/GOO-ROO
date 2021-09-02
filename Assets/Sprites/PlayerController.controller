@@ -164,7 +164,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 07446e2c7c7bff54190f6bc3b5891464, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5eceda86b8cabf242a9590ad5cc647e0, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -302,6 +302,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -4022920206823713932}
     m_Position: {x: -30, y: -130, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6294213768054397589}
+    m_Position: {x: -270, y: -80, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 5217820029114389261}
@@ -313,6 +316,32 @@ AnimatorStateMachine:
   m_ExitPosition: {x: -290, y: 270, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 2322287100201020757}
+--- !u!1102 &6294213768054397589
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: HopNoPhysics
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 5eceda86b8cabf242a9590ad5cc647e0, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &8844546963467449688
 AnimatorState:
   serializedVersion: 5

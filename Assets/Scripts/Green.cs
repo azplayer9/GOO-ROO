@@ -7,19 +7,19 @@ public class Green : MonoBehaviour
     public float value = 0; // EACH BLOB WILL HAVE THEIR OWN VALUE
     //public bool collected = false;
     public bool activated;
-    public BoxCollider2D LeftCamBorder;
+    //public BoxCollider2D LeftCamBorder;
     public GameObject player;
 
     void Awake()
     {
         //this.collected = false;
         player = GameObject.FindObjectOfType<Player>().gameObject;
-        LeftCamBorder = GameObject.Find("ceilingLeft").GetComponent<BoxCollider2D>();
+        //LeftCamBorder = GameObject.Find("ceilingLeft").GetComponent<BoxCollider2D>();
         this.activated = false;
         
         // this.GetComponent<BoxCollider2D>().enabled = false;
         Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), true);
-        Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), LeftCamBorder, true);
+        //Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), LeftCamBorder, true);
         StartCoroutine("Activate");
     }
 
@@ -68,6 +68,7 @@ public class Green : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         Object.Destroy(this.gameObject); // destroy this object after Roo eats it
         Roo.gooMass += this.value;
+        Roo.rooBody.transform.localScale = Roo.initialSize * (Roo.gooMass)/50 + Roo.initialSize; 
         Roo.eating = false;
     }
 

@@ -58,15 +58,4 @@ public class CameraControl : MonoBehaviour
 
         
     }
-
-    void OnTriggerEnter2D(Collider2D col) { // manages camera movement if player moves halfway past the screen
-        var pos = this.transform.position;
-        Debug.Log(pos.x);
-        if (col.gameObject.tag == "Player" && pos.x < maxX){
-            Debug.Log(col.gameObject.GetComponent<Transform>().position.x);
-            pos.x = col.gameObject.GetComponent<Transform>().position.x; // only change x value of the camera
-            this.transform.position = pos;
-        }
-
-    }
 }
