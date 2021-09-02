@@ -24,7 +24,8 @@ public class Player : MonoBehaviour
     public bool stopped; // used to control Goo's momentum upon completing a level
 
     private GameManager gameState;
-
+    
+    public GameObject rooBody;
     private Rigidbody2D rig; 
     public Animator anim;
     public GameObject indicator;
@@ -40,8 +41,8 @@ public class Player : MonoBehaviour
     void Start() 
     {
         gameState = FindObjectOfType<GameManager>();
-
-        rig = this.GetComponent<Rigidbody2D>();
+        rooBody = GameObject.Find("gooAsset");
+        rig = rooBody.GetComponent<Rigidbody2D>();
         anim = this.GetComponent<Animator>();
         
         //camera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
             var dist =  speed * axis * Time.fixedDeltaTime;
 
             // constantly update size based on gooMass min 1, max 5
-            this.transform.localScale = new Vector3(1, 1, 1) * (this.gooMass)/100 + new Vector3(4, 4, 4);
+            rooBody.transform.localScale = new Vector3(4, 4, 4) * (this.gooMass)/100 + new Vector3(2, 2, 2);
 
             // Code for if Goo is *NOT* jumping
             if (!jumping)
@@ -244,9 +245,9 @@ public class Player : MonoBehaviour
     {
         // instantiate new blob 
         var spawnPos = this.transform.position - new Vector3(0, 0.15f, 0);
-        this.GetComponent<BoxCollider2D>().enabled = false;
+        //this.GetComponent<BoxCollider2D>().enabled = false;
 
-        StartCoroutine( DelayedSpawn(val, 0.1f, spawnPos, this.transform.localScale) );
+        StartCoroutine( DelayedSpawn(val, 0.1f, spawnPos, this.rooBody.transform.localScale) );
         // GameObject newBlob = Instantiate(blobObj);        
         // //newBlob.transform.position = new Vector2(this.transform.position.x, this.transform.position.y - (0.28f) );
         
@@ -270,7 +271,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(delay);
         
         GameObject newBlob = Instantiate(blobObj);        
-        //Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), newBlob.GetComponent<BoxCollider2D>(), true);
         newBlob.transform.position = pos;
         newBlob.transform.localScale = scale;
 
@@ -281,7 +281,7 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
 
-        this.GetComponent<BoxCollider2D>().enabled = true;
+        //this.GetComponent<BoxCollider2D>().enabled = true;
     }
 
     public void Die() 

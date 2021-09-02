@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3040274393058166776}
   - component: {fileID: 3040274393058166783}
   - component: {fileID: 3040274393058166782}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: blobAsset
   m_TagString: Green
   m_Icon: {fileID: 0}

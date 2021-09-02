@@ -90,6 +90,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2893734379460221298}
+  - component: {fileID: 1727416244284745107}
+  - component: {fileID: 2063443155798042431}
+  - component: {fileID: 2292638745757868361}
   m_Layer: 0
   m_Name: gooAsset
   m_TagString: Untagged
@@ -106,12 +109,76 @@ Transform:
   m_GameObject: {fileID: 2893734379460221297}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 6836782915541382700}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1727416244284745107
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2893734379460221297}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.16, y: 0.15}
+    newSize: {x: 0.16, y: 0.16}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.16, y: 0.15}
+  m_EdgeRadius: 0
+--- !u!50 &2063443155798042431
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2893734379460221297}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.6
+  m_LinearDrag: 1
+  m_AngularDrag: 1
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 2
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!114 &2292638745757868361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2893734379460221297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0b6b0f3891bc7478b07f8520dd86ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendTriggerMessage: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 5
+  skinWidth: 0.1
 --- !u!1 &7794133766178911847
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,12 +189,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6836782915541382700}
   - component: {fileID: 127132285098885106}
-  - component: {fileID: 1438083336036364712}
   - component: {fileID: 6761320323826114469}
   - component: {fileID: 5318615616419113561}
   - component: {fileID: 2659697127267529405}
   - component: {fileID: 3978730215097427026}
-  - component: {fileID: 8047383024595758685}
   m_Layer: 8
   m_Name: Roo
   m_TagString: Player
@@ -143,8 +208,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7794133766178911847}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: 0.40000004, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1485926441428313997}
   m_Father: {fileID: 2893734379460221298}
@@ -201,27 +266,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &1438083336036364712
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7794133766178911847}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 0.6
-  m_LinearDrag: 1
-  m_AngularDrag: 1
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 2
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!61 &6761320323826114469
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -269,6 +313,8 @@ MonoBehaviour:
   jumping: 0
   jumpCancel: 0
   eating: 0
+  stopped: 0
+  rooBody: {fileID: 0}
   anim: {fileID: 2659697127267529405}
   indicator: {fileID: 2681847765725111240}
   blobObj: {fileID: 3040274393058166273, guid: 6bbb0549601062941ae45ad4e1dbff2a, type: 3}
@@ -389,20 +435,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8047383024595758685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7794133766178911847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c0b6b0f3891bc7478b07f8520dd86ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sendTriggerMessage: 0
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 5
-  skinWidth: 0.1

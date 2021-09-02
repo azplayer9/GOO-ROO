@@ -5970,10 +5970,25 @@ PrefabInstance:
       propertyPath: m_Interpolate
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1727416244284745107, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2292638745757868361, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2893734379460221297, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
       propertyPath: m_Name
       value: gooAsset
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893734379460221297, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2893734379460221298, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
@@ -6045,6 +6060,16 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6836782915541382700, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6055,7 +6080,8 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1727416244284745107, guid: cd4752a7933caa042bb03c1eeeebf8f3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cd4752a7933caa042bb03c1eeeebf8f3, type: 3}
 --- !u!1 &1191344304
 GameObject:
