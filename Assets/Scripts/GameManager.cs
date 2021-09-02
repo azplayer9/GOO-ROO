@@ -78,10 +78,10 @@ public class GameManager : MonoBehaviour
     // go directly to a level (from level select)
     public void GoToLevel(int levelNum)
     {
-        if(levelNum < 1 ) // Level 0 and Level -1 have different soundtracks
-        {
+        //if(levelNum < 1 ) // Level 0 and Level -1 have different soundtracks
+        //{
             Destroy(GameObject.FindGameObjectWithTag("Respawn")); // destroy the soundtrack object currently playing
-        }
+        //}
         if(levelNum < 9 ){
             var name = "Level"+ levelNum;
             //print(name);
@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     // go to the next scene in the list
     public void NextLevel() {
+        // may need to change this to instead use LevelNumber
         SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex + 1 );
     }
 

@@ -9,9 +9,19 @@ public class LevelAudioManager : MonoBehaviour
     void Start()
     {
         GameObject audioObj = GameObject.FindGameObjectWithTag("Respawn");
+        
         if (audioObj)
         {
-            Object.Destroy(this.gameObject);
+            if(SceneManager.GetActiveScene().name == "Level-1")
+            {
+                Destroy(audioObj);
+                this.gameObject.tag = "Respawn";
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else 
+            {
+                Object.Destroy(this.gameObject);
+            }
         }
         else 
         {
