@@ -5970,16 +5970,6 @@ PrefabInstance:
       propertyPath: m_Interpolate
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1727416244284745107, guid: cd4752a7933caa042bb03c1eeeebf8f3,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2292638745757868361, guid: cd4752a7933caa042bb03c1eeeebf8f3,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2893734379460221297, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
       propertyPath: m_Name
@@ -5988,17 +5978,17 @@ PrefabInstance:
     - target: {fileID: 2893734379460221297, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 2893734379460221298, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 2893734379460221298, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2893734379460221298, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
@@ -6045,6 +6035,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2893734379460221298, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893734379460221298, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2893734379460221298, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
@@ -6080,8 +6085,23 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6836782915541382700, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836782915541382700, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6836782915541382700, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 1727416244284745107, guid: cd4752a7933caa042bb03c1eeeebf8f3, type: 3}
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: cd4752a7933caa042bb03c1eeeebf8f3, type: 3}
 --- !u!1 &1191344304
 GameObject:

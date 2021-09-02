@@ -66,11 +66,15 @@ public class UIManager : MonoBehaviour
     {
         victorious = true;
         victoryText.gameObject.SetActive(true);
-
-        Goo.anim.Play("Eat");
         
-        yield return new WaitForSeconds(.85f);
+        
+        Goo.anim.Play("Eat");        
+        yield return new WaitForSeconds(.4f);
 
+        Goo.rooBody.transform.localScale = Goo.initialSize * 2; // growing size
+        yield return new WaitForSeconds(.45f);
+        
+        Goo.rooBody.transform.localScale = Goo.initialSize * 3; // max out size for victory
         Goo.anim.Play("Grow");
     }
 

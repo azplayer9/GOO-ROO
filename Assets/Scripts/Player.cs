@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     public bool stopped; // used to control Goo's momentum upon completing a level
 
     private GameManager gameState;
+    public Vector3 initialSize;
     
     public GameObject rooBody;
     private Rigidbody2D rig; 
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour
         rig = rooBody.GetComponent<Rigidbody2D>();
         anim = this.GetComponent<Animator>();
         
+        Debug.Log(initialSize);
         //camera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         //indicator = GameObject.FindWithTag("Arrow");
         //indicator.SetActive(false);
@@ -73,8 +75,8 @@ public class Player : MonoBehaviour
             //Debug.Log(axis);
             var dist =  speed * axis * Time.fixedDeltaTime;
 
-            // constantly update size based on gooMass min 1, max 5
-            rooBody.transform.localScale = new Vector3(4, 4, 4) * (this.gooMass)/100 + new Vector3(2, 2, 2);
+            // constantly update size based on gooMass -- scales from initial size to 3x initial size
+            rooBody.transform.localScale = initialSize * (this.gooMass)/50 + initialSize; 
 
             // Code for if Goo is *NOT* jumping
             if (!jumping)
@@ -235,6 +237,7 @@ public class Player : MonoBehaviour
                 this.rig.velocity = Vector2.zero;
                 stopped = true;
             }
+
             // this.rig.isKinematic = true;
             // play victory animation? 
             //anim.Play("Grow");
