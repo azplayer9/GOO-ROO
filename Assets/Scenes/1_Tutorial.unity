@@ -246,7 +246,7 @@ MonoBehaviour:
   isPaused: 0
   isVictory: 0
   isDefeat: 0
-  LevelNum: -2
+  LevelNumber: -99
 --- !u!4 &30814546
 Transform:
   m_ObjectHideFlags: 0
@@ -16856,7 +16856,6 @@ MonoBehaviour:
   PausedText: {fileID: 646456862}
   SettingsMenu: {fileID: 1217728981}
   victoryText: {fileID: 1686248215}
-  defeatText: {fileID: 597275527}
 --- !u!1 &2038117825
 GameObject:
   m_ObjectHideFlags: 0

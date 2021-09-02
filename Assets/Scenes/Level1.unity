@@ -755,12 +755,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 676641335}
         m_MethodName: RestartLevel
-        m_Mode: 1
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 0.2
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -1083,7 +1083,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315479502}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8, y: 1, z: 0}
+  m_LocalPosition: {x: -18.73, y: 2.24, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2240,7 +2240,7 @@ MonoBehaviour:
   isPaused: 0
   isVictory: 0
   isDefeat: 0
-  LevelNum: 1
+  LevelNumber: 1
 --- !u!4 &676641336
 Transform:
   m_ObjectHideFlags: 0
@@ -6030,6 +6030,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 6761320323826114469, guid: cd4752a7933caa042bb03c1eeeebf8f3,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd4752a7933caa042bb03c1eeeebf8f3, type: 3}
 --- !u!1 &1191344304
@@ -6879,9 +6889,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c1f45006d963714c92777ca1c98142a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skip_tutorial: 0
   bgm: {fileID: 1191344306}
   sfx: {fileID: 1336475270}
   angleSens: {fileID: 1972569048}
+  skipTutorial: {fileID: 0}
   bgm_val: {fileID: 57153205}
   sfx_val: {fileID: 321820615}
   angleSens_val: {fileID: 786637544}
@@ -7997,7 +8009,6 @@ MonoBehaviour:
   PausedText: {fileID: 886273188}
   SettingsMenu: {fileID: 1346225333}
   victoryText: {fileID: 1770423067}
-  defeatText: {fileID: 0}
 --- !u!114 &1695403076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8665,12 +8676,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 676641335}
         m_MethodName: RestartLevel
-        m_Mode: 1
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 0
+          m_FloatArgument: 0.2
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2

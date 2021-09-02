@@ -7,7 +7,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
 
-    public Player Goo;
+    Player Goo;
     public Image gooBar;
     public TextMeshProUGUI gooText;
     public Image powerBar;
@@ -17,7 +17,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI PausedText;
     public GameObject SettingsMenu;
     public TextMeshProUGUI victoryText;
-    public TextMeshProUGUI defeatText;
+
+    private bool victorious = false;
+    //public TextMeshProUGUI defeatText;
     
     
     void Start()
@@ -48,16 +50,28 @@ public class UIManager : MonoBehaviour
         }
 
         // check to play victory text
-        if (gameState.isVictory)
+        if (gameState.isVictory && !victorious)
         {
-            victoryText.gameObject.SetActive(true);
-            Goo.anim.Play("Eat");  // make sure goo eats bean (maybe add a victory anim here?)
+            StartCoroutine("HandleVictory");
         }
         else if(gameState.isDefeat)
         {
-            defeatText.gameObject.SetActive(true);
+            //defeatText.gameObject.SetActive(true);
+            gameState.RestartLevel(0.5f);
         }
         
+    }
+
+    public IEnumerator HandleVictory()
+    {
+        victorious = true;
+        victoryText.gameObject.SetActive(true);
+
+        Goo.anim.Play("Eat");
+        
+        yield return new WaitForSeconds(.85f);
+
+        Goo.anim.Play("Grow");
     }
 
     public void ShowPauseButtons() 

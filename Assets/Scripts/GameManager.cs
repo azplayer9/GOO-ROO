@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public bool isVictory;
     public bool isDefeat;
 
-    public int LevelNum; // initialize level number in editor
+    public int LevelNumber; // initialize level number in editor
 
     void Start()
     {
@@ -25,10 +25,11 @@ public class GameManager : MonoBehaviour
         // Press R; also restart automatically when player 
         if (Input.GetKeyDown(KeyCode.R)) {
             if (isPaused) { // if game is paused, restart level immediately
-                RestartLevel();
+                RestartLevel(0);
             }
             else{           // otherwise wait a little bit before restarting (fade out?)
-                Invoke("RestartLevel", 0.5f);
+                //Invoke("RestartLevel", 0.5f);
+                RestartLevel(0.5f);
             }
         }
 
@@ -46,9 +47,20 @@ public class GameManager : MonoBehaviour
     }
     
     // reload the current scene
-    public void RestartLevel() {    
-        //SceneManager.LoadScene( SceneManager.GetActiveScene().name );
-        GoToLevel(-1);
+    public void RestartLevel(float delay) 
+    {    
+        // set a delay before changing scenes (animation? etc.)
+        Invoke("RestartTimer", delay);
+        
+        // insert code for fade to black
+
+        //GoToLevel(LevelNumber);
+        SceneManager.LoadScene( SceneManager.GetActiveScene().name );
+    }
+
+    IEnumerator RestartTimer(float delay)
+    {
+        yield return new WaitForSeconds(delay);
     }
 
     // pause/unpause game based on current pause state

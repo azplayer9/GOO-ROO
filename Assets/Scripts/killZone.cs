@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class killZone : MonoBehaviour
 {
+    GameManager gameState;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        gameState = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -17,7 +19,7 @@ public class killZone : MonoBehaviour
     }
 
     public void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject.tag == "Player"){
+        if (col.gameObject.tag == "Player" && !gameState.isVictory){
             // handle player death in Player Class
             col.gameObject.GetComponent<Player>().Die(); 
         }

@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     public bool jumpCancel = false;
     public bool eating = false;
 
+    public bool stopped; // used to control Goo's momentum upon completing a level
+
     private GameManager gameState;
 
     private Rigidbody2D rig; 
@@ -69,8 +71,9 @@ public class Player : MonoBehaviour
             var axis = Input.GetAxisRaw("Horizontal"); // get input direction
             //Debug.Log(axis);
             var dist =  speed * axis * Time.fixedDeltaTime;
-            // constantly update size based on gooMass
-            this.transform.localScale = new Vector3(3, 3, 3) * (this.gooMass)/100 + new Vector3(2,2,2);
+
+            // constantly update size based on gooMass min 1, max 5
+            this.transform.localScale = new Vector3(1, 1, 1) * (this.gooMass)/100 + new Vector3(4, 4, 4);
 
             // Code for if Goo is *NOT* jumping
             if (!jumping)
@@ -227,9 +230,13 @@ public class Player : MonoBehaviour
 
         }
         else {
-            this.rig.velocity = Vector2.zero;
-            this.rig.isKinematic = true;
+            if(!stopped) {
+                this.rig.velocity = Vector2.zero;
+                stopped = true;
+            }
+            // this.rig.isKinematic = true;
             // play victory animation? 
+            //anim.Play("Grow");
         }
     }
 
