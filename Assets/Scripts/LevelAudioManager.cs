@@ -12,16 +12,7 @@ public class LevelAudioManager : MonoBehaviour
         
         if (audioObj)
         {
-            if(SceneManager.GetActiveScene().name == "Level-1")
-            {
-                Destroy(audioObj);
-                this.gameObject.tag = "Respawn";
-                DontDestroyOnLoad(this.gameObject);
-            }
-            else 
-            {
-                Object.Destroy(this.gameObject);
-            }
+            Object.Destroy(this.gameObject);
         }
         else 
         {

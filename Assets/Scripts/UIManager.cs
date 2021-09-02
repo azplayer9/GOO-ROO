@@ -72,10 +72,12 @@ public class UIManager : MonoBehaviour
         Goo.anim.Play("Eat");        
         yield return new WaitForSeconds(.4f);
 
-        Goo.rooBody.transform.localScale = Goo.initialSize * 2; // growing size
+        if(Goo.gooMass < 50)
+            Goo.rooBody.transform.localScale = Goo.initialSize * 2; // growing size
         yield return new WaitForSeconds(.45f);
         
-        Goo.rooBody.transform.localScale = Goo.initialSize * 3; // max out size for victory
+        if (Goo.gooMass < 100)
+            Goo.rooBody.transform.localScale = (Goo.initialSize * 3); // max out size for victory
         Goo.anim.Play("Grow");
     }
 
