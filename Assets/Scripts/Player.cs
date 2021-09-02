@@ -71,6 +71,10 @@ public class Player : MonoBehaviour
         // set sfx volume based on settings
         this.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("sfxVol", 50)/500;
 
+        if(this.gooMass <= 0){  // MAKE SURE HEALTH ALWAYS > 0
+            Die();
+        }
+
         if(!gameState.isVictory && !gameState.isDefeat)
         {
             var axis = Input.GetAxisRaw("Horizontal"); // get input direction

@@ -54,8 +54,9 @@ public class UIManager : MonoBehaviour
         {
             StartCoroutine("HandleVictory");
         }
-        else if(gameState.isDefeat)
+        else if(gameState.isDefeat)     // HANDLES POST MORTEM UI/GAME STUFF
         {
+            // probably want to tweak this code
             //defeatText.gameObject.SetActive(true);
             gameState.RestartLevel(0.5f);
         }
