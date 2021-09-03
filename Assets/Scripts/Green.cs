@@ -37,6 +37,7 @@ public class Green : MonoBehaviour
     IEnumerator Activate(){
         yield return new WaitForSeconds(0.1f);
         this.activated = true;
+        this.GetComponent<ParticleSystem>().Play();
         //Physics2D.IgnoreCollision(this.GetComponent<BoxCollider2D>(), player.GetComponent<BoxCollider2D>(), false);
         // play glowing anim?
     }
@@ -45,7 +46,7 @@ public class Green : MonoBehaviour
     void OnTriggerEnter2D (Collider2D col) {
         //Debug.Log(col);
         
-        if (col.gameObject.tag == "Player" && this.activated){  // player has run into blob
+        if (col.gameObject.tag == "Player" && !col.GetComponent<Player>().eating && this.activated){  // player has run into blob
             this.GetComponent<Rigidbody2D>().isKinematic = true;
             Object.Destroy(this.GetComponent<BoxCollider2D>());
             var Roo = col.GetComponent<Player>();

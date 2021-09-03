@@ -29,8 +29,8 @@ public class SettingsManager : MonoBehaviour
     void Awake()
     {
         // Initialize PlayerPrefs
-        bgm_volume = PlayerPrefs.GetFloat("bgmVol", 50);
-        sfx_volume = PlayerPrefs.GetFloat("sfxVol", 50);
+        bgm_volume = PlayerPrefs.GetFloat("bgmVol", 30);
+        sfx_volume = PlayerPrefs.GetFloat("sfxVol", 30);
         angle_sensitivity = PlayerPrefs.GetFloat("angleSens", 3.0f);
         skip_tutorial = PlayerPrefs.GetInt("skipTutorial", 0);
 

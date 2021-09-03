@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     public GameObject PausedMenu;
     public TextMeshProUGUI PausedText;
     public GameObject SettingsMenu;
-    public TextMeshProUGUI victoryText;
+    public GameObject victoryObj;
 
     private bool victorious = false;
     //public TextMeshProUGUI defeatText;
@@ -66,8 +66,8 @@ public class UIManager : MonoBehaviour
     public IEnumerator HandleVictory()
     {
         victorious = true;
-        victoryText.gameObject.SetActive(true);
-        
+        victoryObj.SetActive(true);
+        Goo.eating = true;
         
         Goo.anim.Play("Eat");        
         yield return new WaitForSeconds(.4f);
@@ -78,6 +78,7 @@ public class UIManager : MonoBehaviour
         
         if (Goo.gooMass < 100)
             Goo.rooBody.transform.localScale = (Goo.initialSize * 3); // max out size for victory
+
         Goo.anim.Play("Grow");
     }
 

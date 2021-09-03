@@ -9,6 +9,7 @@ public class TitleUIManager : MonoBehaviour
     public GameObject TitleMenu;
     public GameObject SettingsMenu;
     public GameObject CreditsMenu;
+    public Texture2D cursorTexture;
 
     public bool skipTutorial = false;
     public int savedLevel = -1; // save last level completed in player prefs; called in StartGame()
@@ -64,6 +65,11 @@ public class TitleUIManager : MonoBehaviour
 
         CreditsMenu.SetActive(false);    
         SettingsMenu.SetActive(false);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
 }

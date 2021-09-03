@@ -14,6 +14,7 @@ public class Goal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameState = FindObjectOfType<GameManager>();
         pickedUp = false;
         trans_dir = 1.0f;
         y_init = transform.position.y;
