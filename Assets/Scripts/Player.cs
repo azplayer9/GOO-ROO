@@ -72,6 +72,7 @@ public class Player : MonoBehaviour
         this.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("sfxVol", 50)/500;
 
         if(this.gooMass <= 0){  // MAKE SURE HEALTH ALWAYS > 0
+            this.gooMass = 0; // set mass to 0 to make sure UI looks ok
             Die();
         }
 

@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI PausedText;
     public GameObject SettingsMenu;
     public GameObject victoryObj;
+    public GameObject defeatObj;
 
     private bool victorious = false;
     //public TextMeshProUGUI defeatText;
@@ -57,8 +58,8 @@ public class UIManager : MonoBehaviour
         else if(gameState.isDefeat)     // HANDLES POST MORTEM UI/GAME STUFF
         {
             // probably want to tweak this code
-            //defeatText.gameObject.SetActive(true);
-            gameState.RestartLevel(0.5f);
+            //gameState.RestartLevel(0.5f);
+            defeatObj.SetActive(true);
         }
         
     }

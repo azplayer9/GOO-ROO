@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour
             PauseLevel(isPaused); // call the pause function
             
             // flip the paused bool
-            isPaused = !isPaused;
+            //isPaused = !isPaused;
         }
 
         if (isDefeat) {
@@ -69,10 +69,12 @@ public class GameManager : MonoBehaviour
         if (paused) {
             Time.timeScale = 1; // if already paused, unpause
             //Debug.Log("unpause");
+            this.isPaused = false;
         }
         else {
             Time.timeScale = 0; // if not paused, pause
             //Debug.Log("pause");
+            this.isPaused = true;
         }
     }
 
