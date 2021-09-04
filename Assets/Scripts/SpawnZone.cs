@@ -4,27 +4,87 @@ using UnityEngine;
 
 public class SpawnZone : MonoBehaviour
 {
-    public float spawnTime = 4.0f;
+    
+    //public float spawnTime = 4.0f;
     public bool spawning = true;
+    public int difficulty = 1;
+    private int objsSpawned = 0;
+
     public BossScript EvilRoo;
+    public GameObject block;
+    public GameObject blob;
+
     // Start is called before the first frame update
     void Start()
     {
         EvilRoo = Object.FindObjectOfType<BossScript>();
+        spawning = true;
+        difficulty = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(EvilRoo != null){
-            if(!spawning)
-            {
+        if (difficulty < 4) // cap the difficulty at 4
+        {
+            difficulty = objsSpawned / 20 + 1;
+        }
 
+        if(EvilRoo.active)
+        {
+            if(spawning)
+            {
+                Debug.Log("Start Coroutine");
+                StartCoroutine("SpawnRandom");
+                spawning = false;
             }
         }
-        else 
+        else // boss has been defeated
         {
-
+            Debug.Log("Boss has been defeated");
+            // stop spawning
+            StopCoroutine("SpawnRandom");
+            spawning = false;
         }
+    }
+
+    IEnumerator SpawnRandom(){
+        // delay before next spawn
+
+        // approximate area to spawn object
+        float regionY = Random.Range(20, 25);
+
+        float numSpawn = Random.Range(1*difficulty, 3*difficulty);
+
+        for(int i = 0; i < numSpawn; i++)
+        {
+            Debug.Log("Spawn Object");
+
+            if ( Random.Range(0, 3) < 1 )
+            {
+                GameObject spawn = Instantiate(blob);
+
+                int val = Random.Range(2, 4) * 10;
+                spawn.GetComponent<Green>().SetBlobValue(Random.Range(2, 5) * 10);
+                spawn.GetComponent<Green>().activated = true;
+
+                spawn.transform.position = new Vector3(Random.Range(-10, 12), regionY, 0);
+
+                spawn.transform.localScale = new Vector3(val/3, val/3, 1);
+
+                objsSpawned++; // increment objs spawned an extra time to speed up difficulty
+            }
+            else
+            {
+                GameObject spawn = Instantiate(block);
+                block.transform.position = new Vector3(Random.Range(-10, 12), regionY, 0);
+            }
+
+            objsSpawned++;
+        }
+
+        // wait for delay before respawning a new object
+        yield return new WaitForSeconds(Random.Range(4f, 8f) - difficulty);
+        spawning = true;
     }
 }
