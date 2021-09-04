@@ -32,27 +32,25 @@ public class Block : MonoBehaviour
                 // Roo.anim.play("DamageBlink"); // animation to indicate damage
 
                 // destroy this object
+                this.GetComponent<Animation>().Play();
                 Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), Roo.GetComponent<Collider2D>());
                 this.active = false;
-                // play some fade away animation here?
-                // anim.Play("FadeAway");
-                Destroy(this.gameObject, .25f);
+                Destroy(this.gameObject, .5f);
             }
             else if(col.gameObject.name == "blobAsset(Clone)" && this.active)
             {
                 Destroy(col.gameObject); // destroy blobs
             }
         }
-        
+
         // all blocks check for ground collision
         if (col.gameObject.tag == "Ground")
         {
             // destroy this object
+            this.GetComponent<Animation>().Play();
             Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), Roo.GetComponent<Collider2D>());
             this.active = false;
-            // play some fade away animation here?
-            // anim.Play("FadeAway");
-            Destroy(this.gameObject, .25f);
+            Destroy(this.gameObject, .5f);
         }
     }
 }

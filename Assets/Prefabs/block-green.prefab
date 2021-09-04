@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4575396350021885569}
   - component: {fileID: 4575396350021885574}
   - component: {fileID: 4575396350021885571}
+  - component: {fileID: 6633445791164872886}
   m_Layer: 10
   m_Name: block-green
   m_TagString: Untagged
@@ -4901,3 +4902,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   harmful: 0
+--- !u!111 &6633445791164872886
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4575396350021885688}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: f0888567a2e9f884380d270d73588e58, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
