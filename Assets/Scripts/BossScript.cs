@@ -6,7 +6,7 @@ public class BossScript : MonoBehaviour
 {
     private Player Roo;
     private float spawnTime;
-    private Animator anim;
+    public Animator anim;
     public bool active = true;
     // Start is called before the first frame update
     void Start()
@@ -14,7 +14,6 @@ public class BossScript : MonoBehaviour
         Roo = GameObject.FindObjectOfType<Player>();
         anim = this.GetComponent<Animator>();
         active = true;
-        InvokeRepeating("Stomp", 2.0f, 4f); 
     }
 
     // Update is called once per frame
@@ -44,10 +43,5 @@ public class BossScript : MonoBehaviour
                 Object.Destroy(this.gameObject, 0.2f);
             }
         }
-    }
-    
-    void Stomp(){
-        //this.anim.Play("Stomp");
-        Debug.Log("STOMP GROUND!");
     }
 }

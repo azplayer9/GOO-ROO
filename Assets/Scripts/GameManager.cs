@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public bool isDefeat;
 
     public int LevelNumber; // initialize level number in editor
-    public static int LastLevel = 6;
+    public static int LastLevel = 8;    // cut-off point before transitioning to boss stage
 
     void Start()
     {

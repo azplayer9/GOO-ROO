@@ -52,6 +52,7 @@ public class SpawnZone : MonoBehaviour
         // delay before next spawn
 
         // approximate area to spawn object
+        EvilRoo.anim.Play("Stomp");
         float regionY = Random.Range(20, 25);
 
         float numSpawn = Random.Range(1*difficulty, 3*difficulty);

@@ -726,6 +726,7 @@ GameObject:
   - component: {fileID: 236477315}
   - component: {fileID: 236477317}
   - component: {fileID: 236477316}
+  - component: {fileID: 236477318}
   m_Layer: 0
   m_Name: BOSS
   m_TagString: Untagged
@@ -835,7 +836,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dda7ba0938cbc34cab4d67b091bb379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   active: 1
+--- !u!95 &236477318
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 236477313}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3d585e3e867aa444a96e0842184b06d9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &273251843
 GameObject:
   m_ObjectHideFlags: 0
@@ -6919,15 +6940,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3576574155041366572, guid: 9eb903f58f327024f99392617cbf60d4,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3576574155041366575, guid: 9eb903f58f327024f99392617cbf60d4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.5
+      value: 15.41
       objectReference: {fileID: 0}
     - target: {fileID: 3576574155041366575, guid: 9eb903f58f327024f99392617cbf60d4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 3576574155041366575, guid: 9eb903f58f327024f99392617cbf60d4,
         type: 3}
@@ -6973,6 +6999,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3576574155041366575, guid: 9eb903f58f327024f99392617cbf60d4,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3576574155041366575, guid: 9eb903f58f327024f99392617cbf60d4,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3576574155041366579, guid: 9eb903f58f327024f99392617cbf60d4,
         type: 3}
