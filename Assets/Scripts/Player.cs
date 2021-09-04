@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     private bool walk = true;   // whether or not Goo can walk
     public bool jumpCancel = false;
     public bool eating = false;
+    public bool invincible = false;
 
     public bool stopped; // used to control Goo's momentum upon completing a level
 
@@ -62,6 +63,7 @@ public class Player : MonoBehaviour
         walk = true;
         jumpCancel = false;
         eating = false;
+        invincible = false;
 
         rooBody.transform.localScale = initialSize * (this.gooMass)/50 + initialSize; 
     }
@@ -145,13 +147,13 @@ public class Player : MonoBehaviour
                 // if Goo can walk and S is not being held, then move
                 else if (this.walk)
                 {
-                    if(!eating)
+                    if(!eating && !invincible)
                     {
                         if(axis != 0) 
                         {
                             anim.Play("Hop");
                         }
-                        else 
+                        else
                         {
                             anim.Play("Idle");
                         }
@@ -299,9 +301,32 @@ public class Player : MonoBehaviour
     public void Die() 
     {
         // play death animation
+        // play sfx?
+
         Object.Destroy(this.gameObject);
         gameState.isDefeat = true; 
     }
+
+    public void TakeDamage(float dmg)
+    {
+        this.gooMass -= dmg;
+        this.invincible = true;
+        StartCoroutine("Invincibility");
+        
+        this.anim.Play("Hurt");
+        // play sfx?
+        rooBody.transform.localScale = initialSize * (gooMass)/50 + initialSize; 
+
+        
+        
+    }
+
+    IEnumerator Invincibility() 
+    {
+        yield return new WaitForSeconds(1f);
+        this.invincible = false;
+    }
+
 
     void OnCollisionEnter2D(Collision2D col) 
     {
@@ -346,6 +371,5 @@ public class Player : MonoBehaviour
             //this.indicator.SetActive(false); // make indicator show up
         }
     }
-
 
 }

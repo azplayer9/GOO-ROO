@@ -11,12 +11,14 @@ public class SpawnZone : MonoBehaviour
     private int objsSpawned = 0;
 
     public BossScript EvilRoo;
+    public Player Roo;
     public GameObject block;
     public GameObject blob;
 
     // Start is called before the first frame update
     void Start()
     {
+        Roo = Object.FindObjectOfType<Player>();
         EvilRoo = Object.FindObjectOfType<BossScript>();
         spawning = true;
         difficulty = 1;
@@ -29,19 +31,19 @@ public class SpawnZone : MonoBehaviour
         {
             difficulty = objsSpawned / 20 + 1;
         }
-
-        if(EvilRoo.active)
+        // make sure both Roo and Evil Roo are alive
+        if(EvilRoo && EvilRoo.active && Roo.gooMass > 0)
         {
             if(spawning)
             {
-                Debug.Log("Start Coroutine");
+                //Debug.Log("Start Coroutine");
                 StartCoroutine("SpawnRandom");
                 spawning = false;
             }
         }
         else // boss has been defeated
         {
-            Debug.Log("Boss has been defeated");
+            //Debug.Log("Boss has been defeated");
             // stop spawning
             StopCoroutine("SpawnRandom");
             spawning = false;
@@ -53,7 +55,6 @@ public class SpawnZone : MonoBehaviour
 
         // approximate area to spawn object
         EvilRoo.anim.Play("Stomp");
-        float regionY = Random.Range(20, 25);
 
         float numSpawn = Random.Range(1*difficulty, 3*difficulty);
 
@@ -69,7 +70,9 @@ public class SpawnZone : MonoBehaviour
                 spawn.GetComponent<Green>().SetBlobValue(Random.Range(2, 5) * 10);
                 spawn.GetComponent<Green>().activated = true;
 
-                spawn.transform.position = new Vector3(Random.Range(-10, 12), regionY, 0);
+                spawn.transform.position = new Vector3( Random.Range(-10, 12), 
+                                                        Random.Range(20, 25),
+                                                        0);
 
                 spawn.transform.localScale = new Vector3(val/3, val/3, 1);
 
@@ -78,7 +81,10 @@ public class SpawnZone : MonoBehaviour
             else
             {
                 GameObject spawn = Instantiate(block);
-                block.transform.position = new Vector3(Random.Range(-10, 12), regionY, 0);
+
+                spawn.transform.position = new Vector3( Random.Range(-10, 12), 
+                                                        Random.Range(20, 25), 
+                                                        0);
             }
 
             objsSpawned++;

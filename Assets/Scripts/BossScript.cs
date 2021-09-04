@@ -26,12 +26,11 @@ public class BossScript : MonoBehaviour
     {
         if(col.gameObject.name == "gooAsset")
         {
-            if(Roo.gooMass < 300)
+            if(Roo.gooMass < 250 && !Roo.invincible)
             {
-                Roo.gooMass -= 30;
-                Roo.rooBody.transform.localScale = Roo.initialSize * (Roo.gooMass)/50 + Roo.initialSize; 
+                Roo.TakeDamage(50);
                 // Roo.anim.play("DamageBlink"); // animation to indicate damage
-                col.rigidbody.AddForce(-5f * (this.transform.position - col.gameObject.transform.position), 
+                col.rigidbody.AddForce(-3f * (this.transform.position - col.gameObject.transform.position), 
                                         ForceMode2D.Impulse);
             }
             else // BOSS IS DEAD 

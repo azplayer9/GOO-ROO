@@ -25,17 +25,14 @@ public class Block : MonoBehaviour
         // only run this code on danger blocks
         if(this.harmful)
         {
-            if(col.gameObject.name == "gooAsset" && this.active)
+            if( col.gameObject.name == "gooAsset" && this.active)
             {   
-                Roo.gooMass -= 20;
-                Roo.rooBody.transform.localScale = Roo.initialSize * (Roo.gooMass)/50 + Roo.initialSize; 
-                // Roo.anim.play("DamageBlink"); // animation to indicate damage
+                // take damage if roo is invincible
+                if (!Roo.invincible){
+                    Roo.TakeDamage(30);
+                }   
 
-                // destroy this object
-                this.GetComponent<Animation>().Play();
-                Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), Roo.GetComponent<Collider2D>());
-                this.active = false;
-                Destroy(this.gameObject, .5f);
+                StartCoroutine("DestroyBlock", 0);
             }
             else if(col.gameObject.name == "blobAsset(Clone)" && this.active)
             {
@@ -46,11 +43,20 @@ public class Block : MonoBehaviour
         // all blocks check for ground collision
         if (col.gameObject.tag == "Ground")
         {
-            // destroy this object
-            this.GetComponent<Animation>().Play();
-            Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), Roo.GetComponent<Collider2D>());
-            this.active = false;
-            Destroy(this.gameObject, .5f);
+            StartCoroutine("DestroyBlock", 1f);
         }
+        
+    }
+
+    IEnumerator DestroyBlock( float delay ){
+        
+        // wait before destroying block
+        yield return new WaitForSeconds(delay);
+        
+        // destroy this object
+        this.active = false;
+        this.GetComponent<Animation>().Play();
+        Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), Roo.GetComponent<Collider2D>());
+        Destroy(this.gameObject, .5f);
     }
 }
