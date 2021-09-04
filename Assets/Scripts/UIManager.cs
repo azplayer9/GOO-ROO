@@ -68,7 +68,6 @@ public class UIManager : MonoBehaviour
     {
         victorious = true;
         victoryObj.SetActive(true);
-        Goo.eating = true;
         
         Goo.anim.Play("Eat");        
         yield return new WaitForSeconds(.4f);

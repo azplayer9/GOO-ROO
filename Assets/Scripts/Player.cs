@@ -130,7 +130,7 @@ public class Player : MonoBehaviour
                     }
 
                     // CANCEL JUMP
-                    if (Input.GetMouseButton(0)) // cancel jump on left click
+                    if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(0)) // cancel jump on left click
                     {
                         this.walk = true; // re-enable normal movement
                         this.rig.gravityScale = this.gravScale;// reset rigidbody mass
@@ -229,14 +229,11 @@ public class Player : MonoBehaviour
                 }
             }
 
-            // if (Input.GetKeyUp(KeyCode.S)){
-            //     this.indicator.SetActive(false);
-            // }
-
             // if indicator is active, change angle
             if(this.indicator.activeSelf)
             {
-                if(Input.GetKeyDown(KeyCode.Space)) // pressing spacebar when setting angle resets angle to 0 (pointing up)
+                // pressing spacebar when setting angle resets angle to 0 (pointing up)
+                if(Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.Space))
                 {
                     this.jumpAngle = 0;
                 }
