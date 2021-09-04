@@ -7,9 +7,10 @@ public class TitleUIManager : MonoBehaviour
 {
 
     public GameObject TitleMenu;
+    public GameObject ControlsMenu;
     public GameObject SettingsMenu;
     public GameObject CreditsMenu;
-    public Texture2D cursorTexture;
+
 
     public bool skipTutorial = false;
     public int savedLevel = -1; // save last level completed in player prefs; called in StartGame()
@@ -19,6 +20,7 @@ public class TitleUIManager : MonoBehaviour
     {
         TitleMenu.SetActive(true);
         SettingsMenu.SetActive(false);
+        ControlsMenu.SetActive(false);
     }
     
     // start game (click on play)
@@ -47,22 +49,35 @@ public class TitleUIManager : MonoBehaviour
     public void OpenSettings() 
     {
         TitleMenu.SetActive(false);
+        ControlsMenu.SetActive(false);
         CreditsMenu.SetActive(false);
+
         SettingsMenu.SetActive(true);
     }    
 
     public void OpenCredits()
     {
         TitleMenu.SetActive(false);
+        ControlsMenu.SetActive(false);
         SettingsMenu.SetActive(false);
+        
         CreditsMenu.SetActive(true);    
+    }
+
+    public void OpenControls(){
+        TitleMenu.SetActive(false);
+        SettingsMenu.SetActive(false);
+        CreditsMenu.SetActive(false); 
+
+        ControlsMenu.SetActive(true);
     }
     
     // return to title screen
     public void ReturnToTitle() 
     {
         TitleMenu.SetActive(true);
-
+        
+        ControlsMenu.SetActive(false);
         CreditsMenu.SetActive(false);    
         SettingsMenu.SetActive(false);
     }

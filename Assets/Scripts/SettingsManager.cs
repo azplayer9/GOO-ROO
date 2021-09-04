@@ -9,10 +9,10 @@ public class SettingsManager : MonoBehaviour
 {
     
     // local variables to save to playerprefs
-    public static float bgm_volume = 50f;
-    public static float sfx_volume = 50f;
+    public static float bgm_volume = 30f;
+    public static float sfx_volume = 30f;
     public static float angle_sensitivity = 3.0f;
-    public int skip_tutorial = 0;
+    public int skip_tutorial = 0; // 0 means no skip, !=0 means skip
     
     // gameObjects referring to settings
     public Slider bgm;
@@ -29,9 +29,9 @@ public class SettingsManager : MonoBehaviour
     void Awake()
     {
         // Initialize PlayerPrefs
-        bgm_volume = PlayerPrefs.GetFloat("bgmVol", 30);
-        sfx_volume = PlayerPrefs.GetFloat("sfxVol", 30);
-        angle_sensitivity = PlayerPrefs.GetFloat("angleSens", 3.0f);
+        bgm_volume = PlayerPrefs.GetFloat("bgmVol", bgm_volume);
+        sfx_volume = PlayerPrefs.GetFloat("sfxVol", sfx_volume);
+        angle_sensitivity = PlayerPrefs.GetFloat("angleSens", angle_sensitivity);
         skip_tutorial = PlayerPrefs.GetInt("skipTutorial", 0);
 
         // Change Sliders
@@ -87,8 +87,8 @@ public class SettingsManager : MonoBehaviour
         //PlayerPrefs.Save();
         
         // Change Sliders -- PlayerPrefs will be saved automatically in Update()
-        bgm.value = 50;
-        sfx.value = 50;
+        bgm.value = 30;
+        sfx.value = 30;
         angleSens.value = 3;
     }
 }

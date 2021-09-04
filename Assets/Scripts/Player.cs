@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
 
                             if (this.jumpAngle - axis * 10 < 80 && this.jumpAngle - axis * 10 > -80)
                             {
-                                this.jumpAngle -= axis * SettingsManager.angle_sensitivity; // default angle sensitivity is 3.0f
+                                this.jumpAngle -= axis * PlayerPrefs.GetFloat("angleSens", 3f); // default angle sensitivity is 3.0f
                             }
 
 
