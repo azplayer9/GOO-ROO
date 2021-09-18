@@ -43,7 +43,14 @@ public class Block : MonoBehaviour
         // all blocks check for ground collision
         if (col.gameObject.tag == "Ground")
         {
-            StartCoroutine("DestroyBlock", 1f);
+            if (this.harmful)
+            {
+                StartCoroutine("DestroyBlock", 0.5f);
+            }
+            else 
+            {
+                StartCoroutine("DestroyBlock", 1.0f);
+            }
         }
         
     }

@@ -268,6 +268,7 @@ MonoBehaviour:
   jumping: 0
   jumpCancel: 0
   eating: 0
+  invincible: 0
   stopped: 0
   initialSize: {x: 2, y: 2, z: 2}
   rooBody: {fileID: 0}
@@ -276,6 +277,7 @@ MonoBehaviour:
   blobObj: {fileID: 3040274393058166273, guid: 6bbb0549601062941ae45ad4e1dbff2a, type: 3}
   bounceSFX: {fileID: 8300000, guid: adb4063cfac876e46a3af2138b465108, type: 3}
   chargeSFX: {fileID: 8300000, guid: 34afc925bd64fdd4fab2abc9b35ea071, type: 3}
+  hurtSFX: {fileID: 8300000, guid: 735a6993b601c3a4eb6b8a24a56993f3, type: 3}
 --- !u!95 &2659697127267529405
 Animator:
   serializedVersion: 3

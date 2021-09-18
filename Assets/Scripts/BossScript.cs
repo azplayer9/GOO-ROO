@@ -26,20 +26,25 @@ public class BossScript : MonoBehaviour
     {
         if(col.gameObject.name == "gooAsset")
         {
-            if(Roo.gooMass < 250 && !Roo.invincible)
+            if(Roo.gooMass < 250)
             {
-                Roo.TakeDamage(50);
-                // Roo.anim.play("DamageBlink"); // animation to indicate damage
+                if (!Roo.invincible){
+                    Roo.TakeDamage(50);
+                }
+                
+                this.anim.Play("Eat");
                 col.rigidbody.AddForce(-3f * (this.transform.position - col.gameObject.transform.position), 
                                         ForceMode2D.Impulse);
             }
             else // BOSS IS DEAD 
             {
                 this.active = false;
+                Roo.eating = true;
                 Roo.anim.Play("Eat");
                 
                 // play death animation?
                 Object.Destroy(this.gameObject, 0.2f);
+                Roo.eating = false;
             }
         }
     }

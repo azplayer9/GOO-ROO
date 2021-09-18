@@ -24,9 +24,10 @@ public class Green : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
+        // set sfx vol level
+        this.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("sfxVol", 50)/400;
     }
 
     public void SetBlobValue(float val){
@@ -66,6 +67,7 @@ public class Green : MonoBehaviour
     // }
 
     IEnumerator EatGreen (Player Roo){
+        this.GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(0.25f);
         Object.Destroy(this.gameObject); // destroy this object after Roo eats it
         Roo.gooMass += this.value;

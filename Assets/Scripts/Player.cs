@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
 
     public AudioClip bounceSFX;
     public AudioClip chargeSFX;
+    public AudioClip hurtSFX;
     //public AudioClip chargeLoopSFX;
     
     //private new Transform camera;
@@ -210,13 +211,15 @@ public class Player : MonoBehaviour
                     else{
                         GetComponent<AudioSource>().Stop();
                     }
+
                     this.indicator.SetActive(false); // get rid of indicator
                     this.walk = true; // re-enable normal movement
                     this.jumpPower = 0; // reset jumpPower on mouseUp
                     jumpCancel = false;
                 }
 
-                if(Input.GetMouseButtonUp(1))
+                // turn jump cancel off if no buttons are pressed
+                if(!Input.GetMouseButton(0) && !Input.GetMouseButton(1))
                 {
                     jumpCancel = false;
                 }
@@ -300,11 +303,16 @@ public class Player : MonoBehaviour
 
     public void Die() 
     {
+        this.indicator.SetActive(false); // get rid of indicator
         // play death animation
         // play sfx?
-
-        Object.Destroy(this.gameObject);
+        this.GetComponent<AudioSource>().pitch /= 2;
+        this.GetComponent<AudioSource>().PlayOneShot(chargeSFX);
+        this.GetComponent<AudioSource>().pitch *= 2;
         gameState.isDefeat = true; 
+        this.GetComponent<SpriteRenderer>().enabled = false;
+        Object.Destroy(this.gameObject, 1f);
+        
     }
 
     public void TakeDamage(float dmg)
@@ -313,12 +321,14 @@ public class Player : MonoBehaviour
         this.invincible = true;
         StartCoroutine("Invincibility");
         
-        this.anim.Play("Hurt");
-        // play sfx?
+        if (this.gooMass > 0) 
+        {
+            this.anim.Play("Hurt");
+            this.GetComponent<AudioSource>().PlayOneShot(hurtSFX);
+        }
+        
         rooBody.transform.localScale = initialSize * (gooMass)/50 + initialSize; 
 
-        
-        
     }
 
     IEnumerator Invincibility() 
@@ -353,14 +363,6 @@ public class Player : MonoBehaviour
         {
             this.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         }
-        // if(col.gameObject.tag == "Sticky")
-        // {
-        //     jumpCancel = true;
-        // }
-        // else 
-        // {
-        //     jumpCancel = false;
-        // }
     }
 
     void OnCollisionExit2D(Collision2D col) 

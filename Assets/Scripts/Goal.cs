@@ -23,6 +23,8 @@ public class Goal : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        this.GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("sfxVol", 50)/400;
+
         if (!Goal.pickedUp) 
         {
             var position = this.transform.position;
@@ -56,7 +58,7 @@ public class Goal : MonoBehaviour
             
             if(!Goal.pickedUp)
             {
-                //this.score_text.text = "Pieces Collected: " + ++score;
+                this.GetComponent<AudioSource>().Play();
                 Goal.pickedUp = true;
                 gameState.isVictory = true;
             }   

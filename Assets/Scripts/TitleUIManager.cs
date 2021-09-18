@@ -21,6 +21,7 @@ public class TitleUIManager : MonoBehaviour
         TitleMenu.SetActive(true);
         SettingsMenu.SetActive(false);
         ControlsMenu.SetActive(false);
+        CreditsMenu.SetActive(false);
     }
     
     // start game (click on play)

@@ -32,8 +32,19 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
+         // first check for victory/defeat
+        if (gameState.isVictory && !victorious)
+        {
+            StartCoroutine("HandleVictory");
+        }
+        else if(gameState.isDefeat)     // HANDLES POST MORTEM UI/GAME STUFF
+        {
+            // probably want to tweak this code
+            //gameState.RestartLevel(0.5f);
+            defeatObj.SetActive(true);
+        }
         // code to run if game is not paused
-        if(!gameState.isPaused) 
+        else if(!gameState.isPaused) 
         {
             gooBar.fillAmount = Goo.gooMass / 100;      // fill mass UI
             gooText.text = Goo.gooMass + "%";
@@ -50,17 +61,7 @@ public class UIManager : MonoBehaviour
             PausedMenu.SetActive(true);
         }
 
-        // check to play victory text
-        if (gameState.isVictory && !victorious)
-        {
-            StartCoroutine("HandleVictory");
-        }
-        else if(gameState.isDefeat)     // HANDLES POST MORTEM UI/GAME STUFF
-        {
-            // probably want to tweak this code
-            //gameState.RestartLevel(0.5f);
-            defeatObj.SetActive(true);
-        }
+       
         
     }
 

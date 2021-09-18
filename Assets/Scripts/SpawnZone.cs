@@ -25,14 +25,14 @@ public class SpawnZone : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (difficulty < 4) // cap the difficulty at 4
         {
             difficulty = objsSpawned / 20 + 1;
         }
         // make sure both Roo and Evil Roo are alive
-        if(EvilRoo && EvilRoo.active && Roo.gooMass > 0)
+        if(EvilRoo && EvilRoo.active && Roo && Roo.gooMass > 0)
         {
             if(spawning)
             {
